@@ -27,13 +27,15 @@ public class RateLimitAspect {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RateLimitAspect.class);
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private final  RedisTemplate<String, Object> redisTemplate;
 
 
-    @Resource
-    private DefaultRedisScript<Long> limitScript;
+    private final DefaultRedisScript<Long> limitScript;
 
+    public RateLimitAspect(RedisTemplate<String, Object> redisTemplate, DefaultRedisScript<Long> limitScript) {
+        this.redisTemplate = redisTemplate;
+        this.limitScript = limitScript;
+    }
 
     @Before("@annotation(rateLimiter)")
     public void isAllowed(JoinPoint proceedingJoinPoint, RateLimiter rateLimiter) throws IPException, InstantiationException, IllegalAccessException {
@@ -57,7 +59,7 @@ public class RateLimitAspect {
 
         // 执行 Lua 脚本进行限流判断
         List<String> keyList = Collections.singletonList(key);
-        Long result = stringRedisTemplate
+        Long result = redisTemplate
                 .execute(limitScript, keyList, Integer.toString(rateLimiter.count())
                         , Integer.toString(rateLimiter.time()));
         LOGGER.info("result:{}", result);
