@@ -1,0 +1,19 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: SpringBoot-RabbitMQ
+  rabbitmq:
+    host: 127.0.0.1
+    username: guest
+    password: guest
+    port: 5672
+    #    消息确认配置项
+
+    # 开启发布确认
+    publisher-confirms: true
+    # 开启发布返回
+    publisher-returns: true
+
+
+
