@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: SpringBoot-ElasticSearch
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql:///db7?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+  data:
+    elasticsearch:
+      client:
+        reactive:
+          endpoints: 127.0.0.1:9200
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+# MyBatis配置
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: com.ruoyi.**.domain
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+
+
+server:
+  port: 8080
+
+
+
+
+minio:
+  endpoint: http://127.0.0.1:9000
+  accessKey: 3x2K4oPLqIzvrEL6w2ya
+  secretKey: xPx2PYoNbbxRmEYXgJVUmsPr5zf8OycyiJQJWzKl
+
+
