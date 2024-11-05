@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/contex
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+    <!--    配置数据库连接池-->
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl"
+                  value="jdbc:mysql://localhost:3306/activity?useUnicode=true&amp;characterEncoding=utf-8"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+
+    <!--    配置activity引擎-->
+    <bean id="processEngineConfiguration"
+          class="org.activiti.spring.SpringProcessEngineConfiguration">
+        <property name="dataSource" ref="dataSource"/>
+
+        <!-- 设置历史级别 -->
+        <property name="history" value="full"/>
+
+        <!--
+              activity数据库表处理策略
+              create-drop: 每次启动activity引擎，会删除表重新创建表
+              true: 启动activity引擎时，会根据表的结构，自动创建表
+              false: 启动activity引擎时，不会自动创建表，需要手动创建表
+              drop-create: 每次启动activity引擎，会删除表重新创建表
+        -->
+        <property name="databaseSchemaUpdate" value="create-drop"/>
+        <property name="dbHistoryUsed" value="true"/>
+     </bean>
+</beans>

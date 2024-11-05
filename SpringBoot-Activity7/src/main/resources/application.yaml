@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: SpringBoot-Activiti7
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/activity?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+  activiti:
+    db-history-used: true
+    history-level: full
