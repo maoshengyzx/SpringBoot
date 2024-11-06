@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * @Create 2024/10/31 21:36
  * @Version 1.0
  */
-@Configuration
+//@Configuration
 public class MessageListenerConfig {
 
     private final CachingConnectionFactory cachingConnectionFactory;
@@ -29,7 +29,7 @@ public class MessageListenerConfig {
         this.myAckReceiver = myAckReceiver;
     }
 
-    @Bean
+//    @Bean
     public SimpleMessageListenerContainer simpleMessageListenerContainer() {
         SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer(cachingConnectionFactory);
         simpleMessageListenerContainer.setConcurrentConsumers(1);

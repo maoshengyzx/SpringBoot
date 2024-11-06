@@ -17,15 +17,14 @@ import org.springframework.context.annotation.Configuration;
  * @Create 2024/10/31 21:12
  * @Version 1.0
  */
-@Configuration
 public class RabbitConfig {
 
-
-    /**
+/*
+    *//**
      * 配置  消息回调
      * @param connectionFactory
      * @return
-     */
+     *//*
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate();
@@ -57,5 +56,5 @@ public class RabbitConfig {
         });
 
         return rabbitTemplate;
-    }
+    }*/
 }

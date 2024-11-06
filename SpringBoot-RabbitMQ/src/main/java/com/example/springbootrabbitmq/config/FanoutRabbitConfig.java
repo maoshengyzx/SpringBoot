@@ -8,7 +8,6 @@ import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 /**
  * ClassName: FanoutRabbitConfig
@@ -36,6 +35,11 @@ public class FanoutRabbitConfig {
         return new FanoutExchange("fanoutExchange", true, false);
     }
 
+    @Bean
+    public FanoutExchange canalFanoutExchange() {
+        return new FanoutExchange("canalFanoutExchange", true, false);
+    }
+
     /**
      * 创建队列
      */
@@ -52,6 +56,11 @@ public class FanoutRabbitConfig {
     @Bean
     public Queue fanoutQueueSecond() {
         return new Queue("fanoutQueueSecond", true);
+    }
+
+    @Bean
+    public Queue canalQueue() {
+        return new Queue("canalQueue", true);
     }
 
     /**
@@ -74,6 +83,12 @@ public class FanoutRabbitConfig {
     public Binding fanoutBindingSecond() {
         LOGGER.info("绑定扇形交换机2");
         return BindingBuilder.bind(fanoutQueueSecond()).to(fanoutExchange());
+    }
+
+    @Bean
+    public Binding canalBinding() {
+        LOGGER.info("绑定canal交换机");
+        return BindingBuilder.bind(canalQueue()).to(canalFanoutExchange());
     }
 
 }

@@ -10,11 +10,12 @@ import java.util.Map;
 
 /**
  * 自定义消息
+ *
+ *  implements ChannelAwareMessageListener
  */
-@Component
-public class MyAckReceiver implements ChannelAwareMessageListener {
+public class MyAckReceiver  {
 
-    @Override
+   /* @Override
     public void onMessage(Message message, Channel channel) throws Exception {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         try {
@@ -47,5 +48,5 @@ public class MyAckReceiver implements ChannelAwareMessageListener {
             map.put(key, value);
         }
         return map;
-    }
+    }*/
 }
