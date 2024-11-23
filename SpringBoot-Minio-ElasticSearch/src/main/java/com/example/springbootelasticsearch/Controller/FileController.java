@@ -32,6 +32,12 @@ public class FileController {
         this.fileTableService = fileTableService;
     }
 
+    /**
+     * 文件上传
+     * @param file
+     * @param bucketName
+     * @return
+     */
     @GetMapping("/uploadFile")
     public String uploadFile(@RequestParam("file") MultipartFile file, String bucketName) {
         fileTableService.uploadFile(file, bucketName);

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="SpringBoot-SpringAI" />
+        <module name="SpringBoot-Just-Auth" />
+        <module name="SpringBoot-Redis-Lua" />
+        <module name="SpringBoot-Activity7" />
+        <module name="SpringBoot-Minio-ElasticSearch" />
+        <module name="SpringBoot-RabbitMQ" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SpringBoot-Activity7" options="-parameters" />
+      <module name="SpringBoot-Just-Auth" options="-parameters" />
+      <module name="SpringBoot-Minio-ElasticSearch" options="-parameters" />
+      <module name="SpringBoot-RabbitMQ" options="-parameters" />
+      <module name="SpringBoot-Redis-Lua" options="-parameters" />
+      <module name="SpringBoot-SpringAI" options="-parameters" />
+    </option>
+  </component>
+</project>

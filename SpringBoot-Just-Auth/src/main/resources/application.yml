@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: SpringBoot-Just-Auth
+  datasource:
+    url: jdbc:mysql://localhost:3306/db7?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+server:
+  port: 8080
+
+oauth:
+  github:
+    redirect-uri: http://127.0.0.1:8080/oauth/callback/github
+    client-secret: 319585bbbab85f3396f4b34cfd324f1982608fbe
+    client-id: Ov23liqMxp1CxeT8nUDr

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/SpringBoot-Activity7/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SpringBoot-Just-Auth/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SpringBoot-Minio-ElasticSearch/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SpringBoot-RabbitMQ/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SpringBoot-Redis-Lua/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SpringBoot-SpringAI/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../../StudyApps/profiles/Maven/repo/org/springframework/boot/spring-boot-starter-parent/2.0.2.RELEASE/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../../StudyApps/profiles/Maven/repo/org/springframework/boot/spring-boot-starter-parent/2.3.4.RELEASE/src/main/resources" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

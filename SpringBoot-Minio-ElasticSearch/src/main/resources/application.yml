@@ -27,9 +27,6 @@ mybatis:
 server:
   port: 8080
 
-
-
-
 minio:
   endpoint: http://127.0.0.1:9000
   accessKey: 3x2K4oPLqIzvrEL6w2ya

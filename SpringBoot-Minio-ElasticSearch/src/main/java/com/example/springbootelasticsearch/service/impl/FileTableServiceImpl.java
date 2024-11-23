@@ -20,6 +20,7 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.document.Document;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +29,9 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * (FileTable)表服务实现类
@@ -46,6 +50,7 @@ public class FileTableServiceImpl implements FileTableService {
     private final ElasticsearchOperations elasticsearchOperations;
 
     private final MinioUtils minioUtils;
+
 
     /**
      * 实例化完成后创建索引
@@ -122,6 +127,7 @@ public class FileTableServiceImpl implements FileTableService {
         highlightBuilder.postTags("</em>");
         highlightBuilder.order();
         queryBuilder.withHighlightBuilder(highlightBuilder);
+//        queryBuilder.withHighlightFields(new HighlightBuilder.Field("fileName"));
 
         // 也可以添加分页和排序
         SortBuilder<FieldSortBuilder> sortBuilder = new FieldSortBuilder("fileSize").order(SortOrder.DESC);
@@ -129,13 +135,20 @@ public class FileTableServiceImpl implements FileTableService {
 
         NativeSearchQuery nativeSearchQuery = queryBuilder.build();
 
-        SearchHits<FileTable> searchHits = elasticsearchOperations.search(nativeSearchQuery, FileTable.class);
 
-        searchHits.forEach(item -> {
-            FileTable fileTable = item.getContent();
-            System.out.println("Highlighted FileName: " + item.getHighlightFields().get("fileName"));
-            System.out.println("Highlighted FileContent: " + item.getHighlightFields().get("fileContent"));
+        // 使用开启异步线程，执行查询
+        CompletableFuture<SearchHits<FileTable>> future = CompletableFuture.supplyAsync(() -> {
+            System.out.println("当前线程：" + Thread.currentThread().getName());
+            return elasticsearchOperations.search(nativeSearchQuery, FileTable.class);
         });
+        SearchHits<FileTable> searchHits = null;
+        try {
+            searchHits = future.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
 
         ArrayList<FileTable> fileTables = new ArrayList<>();
 
