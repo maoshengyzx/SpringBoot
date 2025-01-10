@@ -12,5 +12,5 @@ server:
 oauth:
   github:
     redirect-uri: http://127.0.0.1:8080/oauth/callback/github
-    client-secret: 319585bbbab85f3396f4b34cfd324f1982608fbe
-    client-id: Ov23liqMxp1CxeT8nUDr
+    client-secret: 
+    client-id: 
