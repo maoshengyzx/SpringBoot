@@ -1,0 +1,113 @@
+package com.nmap4j.springbootnmap4j.controller;
+
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
+import com.nmap4j.springbootnmap4j.pojo.NmapPortInfo;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.nmap4j.Nmap4j;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ThreadPoolExecutor;
+
+/**
+ * ClassName: Namp4jController
+ * Package: com.nmap4j.springbootnmap4j.controller
+ * Description:
+ *
+ * @Author ms
+ * @Create 2025/1/10 16:37
+ * @Version 1.0
+ */
+@RestController
+@RequestMapping("/nmap")
+@Slf4j
+public class Namp4jController {
+
+    private final ThreadPoolExecutor threadPoolExecutor;
+
+
+    public Namp4jController(ThreadPoolExecutor threadPoolExecutor) {
+        this.threadPoolExecutor = threadPoolExecutor;
+    }
+
+    /**
+     * 使用 nmap4j 工具进行扫描
+     *
+     * @param ip    目标 ip
+     * @param ports 目标端口
+     * @return 端口信息列表
+     */
+    @RequestMapping("/querydb")
+    public List<NmapPortInfo> querydb(@RequestParam(value = "ip") String ip, @RequestParam("ports") List<String> ports) {
+        ArrayList<NmapPortInfo> portInfos = new ArrayList<>();
+        // 1.拼接端口
+        String portStr = StrUtil.join(",", ports);
+        //2. 指定 nmap 路径
+        String path = "D:/StudyApps/nmap";
+        String fileName = "temp_result.xml";
+
+        Nmap4j nmap4j = new Nmap4j(path);
+
+        //3. 读取端口耗时较长，可以使用异步
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+            nmap4j.addFlags("-sV -p " + portStr + " -T5 -O -oX " + fileName);
+            nmap4j.includeHosts(ip);
+            try {
+                nmap4j.execute();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }, threadPoolExecutor);
+
+        future.join();
+
+        //4. 获取端口信息
+        return getPortInfo(portInfos, fileName);
+    }
+
+
+    /**
+     * 获取 ip + 端口信息,封装为集合返回前端
+     *
+     * @param portInfos 返回前端集合
+     * @param fileName  临时的 xml 文件
+     * @return 信息列表
+     */
+    @SneakyThrows
+    private List<NmapPortInfo> getPortInfo(List<NmapPortInfo> portInfos, String fileName) {
+        // 获取项目所在路径
+        String projectPath = System.getProperty("user.dir");
+        // 拼接文件路径
+        String filePath = projectPath + FileUtil.FILE_SEPARATOR + fileName;
+        log.info("文件路径：{}", filePath);
+
+        // nmap 返回 xml 格式固定，使用 dom4j 解析
+        SAXReader reader = new SAXReader();
+        org.dom4j.Document document = reader.read(FileUtil.file(filePath));
+        org.dom4j.Element rootElement = document.getRootElement();
+        org.dom4j.Element element = rootElement.element("host");
+
+        org.dom4j.Element xmlPorts = element.element("ports");
+
+        List<org.dom4j.Element> port = xmlPorts.elements("port");
+        for (org.dom4j.Element port1 : port) {
+            Element service = port1.element("service");
+            String product = service.attributeValue("product");
+            String version = service.attributeValue("version");
+            NmapPortInfo nmapPortInfo = new NmapPortInfo(product, version);
+            portInfos.add(nmapPortInfo);
+        }
+
+        // 删除临时文件
+        FileUtil.del(filePath);
+        return portInfos;
+    }
+}
