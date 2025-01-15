@@ -8,10 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.nmap4j.Nmap4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -39,20 +41,27 @@ public class Namp4jController {
     }
 
     /**
-     * 使用 nmap4j 工具进行扫描
+     * 使用 nmap4j 工具进行扫描, windows系统
      *
      * @param ip    目标 ip
      * @param ports 目标端口
      * @return 端口信息列表
      */
-    @RequestMapping("/querydb")
+    @RequestMapping("/windows/querydb")
     public List<NmapPortInfo> querydb(@RequestParam(value = "ip") String ip, @RequestParam("ports") List<String> ports) {
         ArrayList<NmapPortInfo> portInfos = new ArrayList<>();
         // 1.拼接端口
         String portStr = StrUtil.join(",", ports);
+
         //2. 指定 nmap 路径
         String path = "D:/StudyApps/nmap";
         String fileName = "temp_result.xml";
+
+
+        // 3.获取当前系统信息
+        String system = System.getProperty("os.name");
+        log.info("当前系统：{}", system);
+
 
         Nmap4j nmap4j = new Nmap4j(path);
 
@@ -70,6 +79,43 @@ public class Namp4jController {
         future.join();
 
         //4. 获取端口信息
+        return getPortInfo(portInfos, fileName);
+    }
+
+
+    /**
+     * 使用 nmap4j 工具进行扫描, linux系统
+     *
+     * @param ip    目标 ip
+     * @param ports 目标端口
+     * @return 端口信息列表
+     */
+    @GetMapping("/linux/querydb")
+    @SneakyThrows
+    public List<NmapPortInfo> linuxQuerydb(@RequestParam(value = "ip") String ip, @RequestParam("ports") List<String> ports) {
+        ArrayList<NmapPortInfo> portInfos = new ArrayList<>();
+        // 1.拼接端口
+        String portStr = StrUtil.join(",", ports);
+        String fileName = "temp_result.xml";
+        //2. linux namp 命令
+        String nmapCommand = "nmap -sV -p " + portStr + " -T5 -O -oX " + fileName + " " + ip;
+
+        //3. 读取端口耗时较长，可以使用异步
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+            Process nampProcess = null;
+            try {
+                // 3. 运行命令
+                nampProcess = Runtime.getRuntime().exec(nmapCommand);
+                // 4. 等待命令执行完成
+                nampProcess.waitFor();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }, threadPoolExecutor);
+
+        future.join();
+
+        // 5. 获取端口信息
         return getPortInfo(portInfos, fileName);
     }
 
