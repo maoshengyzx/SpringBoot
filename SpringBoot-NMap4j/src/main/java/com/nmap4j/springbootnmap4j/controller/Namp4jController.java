@@ -50,7 +50,7 @@ public class Namp4jController {
     public List<NmapPortInfo> queryDb(String ip, List<String> ports) {
         // 判断系统
         String system = System.getProperty("os.name").toLowerCase();
-        if (StrUtil.equals(system, SystemEnum.WINDOWS.getValue())) {
+        if (StrUtil.contains(system, SystemEnum.WINDOWS.getValue())) {
             return windowsQuerydb(ip, ports);
         } else {
             return linuxQuerydb(ip, ports);
