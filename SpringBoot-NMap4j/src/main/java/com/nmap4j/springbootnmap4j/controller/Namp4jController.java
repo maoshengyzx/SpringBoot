@@ -2,18 +2,16 @@ package com.nmap4j.springbootnmap4j.controller;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
+import com.nmap4j.springbootnmap4j.SystemEnum.SystemEnum;
 import com.nmap4j.springbootnmap4j.pojo.NmapPortInfo;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.nmap4j.Nmap4j;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -40,6 +38,25 @@ public class Namp4jController {
         this.threadPoolExecutor = threadPoolExecutor;
     }
 
+
+    /**
+     * 测试 nmap4j 工具
+     *
+     * @param ip    目标 ip
+     * @param ports 目标端口
+     * @return 端口信息列表
+     */
+    @RequestMapping("/queryDb")
+    public List<NmapPortInfo> queryDb(String ip, List<String> ports) {
+        // 判断系统
+        String system = System.getProperty("os.name").toLowerCase();
+        if (StrUtil.equals(system, SystemEnum.WINDOWS.getValue())) {
+            return windowsQuerydb(ip, ports);
+        } else {
+            return linuxQuerydb(ip, ports);
+        }
+    }
+
     /**
      * 使用 nmap4j 工具进行扫描, windows系统
      *
@@ -47,8 +64,7 @@ public class Namp4jController {
      * @param ports 目标端口
      * @return 端口信息列表
      */
-    @RequestMapping("/windows/querydb")
-    public List<NmapPortInfo> querydb(@RequestParam(value = "ip") String ip, @RequestParam("ports") List<String> ports) {
+    public List<NmapPortInfo> windowsQuerydb(String ip, List<String> ports) {
         ArrayList<NmapPortInfo> portInfos = new ArrayList<>();
         // 1.拼接端口
         String portStr = StrUtil.join(",", ports);
@@ -90,9 +106,8 @@ public class Namp4jController {
      * @param ports 目标端口
      * @return 端口信息列表
      */
-    @GetMapping("/linux/querydb")
     @SneakyThrows
-    public List<NmapPortInfo> linuxQuerydb(@RequestParam(value = "ip") String ip, @RequestParam("ports") List<String> ports) {
+    public List<NmapPortInfo> linuxQuerydb(String ip, List<String> ports) {
         ArrayList<NmapPortInfo> portInfos = new ArrayList<>();
         // 1.拼接端口
         String portStr = StrUtil.join(",", ports);
@@ -139,15 +154,15 @@ public class Namp4jController {
         SAXReader reader = new SAXReader();
         org.dom4j.Document document = reader.read(FileUtil.file(filePath));
         org.dom4j.Element rootElement = document.getRootElement();
-        org.dom4j.Element element = rootElement.element("host");
+        org.dom4j.Element hostElement = rootElement.element("host");
 
-        org.dom4j.Element xmlPorts = element.element("ports");
+        org.dom4j.Element portsElement = hostElement.element("ports");
 
-        List<org.dom4j.Element> port = xmlPorts.elements("port");
-        for (org.dom4j.Element port1 : port) {
-            Element service = port1.element("service");
-            String product = service.attributeValue("product");
-            String version = service.attributeValue("version");
+        List<org.dom4j.Element> portElements = portsElement.elements("port");
+        for (org.dom4j.Element port : portElements) {
+            Element serviceElement = port.element("service");
+            String product = serviceElement.attributeValue("product");
+            String version = serviceElement.attributeValue("version");
             NmapPortInfo nmapPortInfo = new NmapPortInfo(product, version);
             portInfos.add(nmapPortInfo);
         }
