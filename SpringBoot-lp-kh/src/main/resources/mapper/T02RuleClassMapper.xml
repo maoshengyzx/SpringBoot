@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lp.kh.springbootlpkh.mapper.T02RuleClassMapper">
+
+    <resultMap type="com.lp.kh.springbootlpkh.entity.T02RuleClass" id="T02RuleClassMap">
+        <result property="classNo" column="class_no" jdbcType="VARCHAR"/>
+        <result property="className" column="class_name" jdbcType="VARCHAR"/>
+        <result property="ruleDim" column="rule_dim" jdbcType="VARCHAR"/>
+        <result property="showOrder" column="show_order" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="T02RuleClassMap">
+        select class_no,
+               class_name,
+               rule_dim,
+               show_order
+        from t02_rule_class
+        where class_no = #{classNo}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="T02RuleClassMap">
+        select
+        class_no, class_name, rule_dim, show_order
+        from t02_rule_class
+        <where>
+            <if test="classNo != null and classNo != ''">
+                and class_no = #{classNo}
+            </if>
+            <if test="className != null and className != ''">
+                and class_name = #{className}
+            </if>
+            <if test="ruleDim != null and ruleDim != ''">
+                and rule_dim = #{ruleDim}
+            </if>
+            <if test="showOrder != null">
+                and show_order = #{showOrder}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from t02_rule_class
+        <where>
+            <if test="classNo != null and classNo != ''">
+                and class_no = #{classNo}
+            </if>
+            <if test="className != null and className != ''">
+                and class_name = #{className}
+            </if>
+            <if test="ruleDim != null and ruleDim != ''">
+                and rule_dim = #{ruleDim}
+            </if>
+            <if test="showOrder != null">
+                and show_order = #{showOrder}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="classNo" useGeneratedKeys="true">
+        insert into t02_rule_class(class_name, rule_dim, show_order)
+        values (#{className}, #{ruleDim}, #{showOrder})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="classNo" useGeneratedKeys="true">
+        insert into t02_rule_class(class_name, rule_dim, show_order)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.className}, #{entity.ruleDim}, #{entity.showOrder})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="classNo" useGeneratedKeys="true">
+        insert into t02_rule_class(class_name, rule_dim, show_order)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.className}, #{entity.ruleDim}, #{entity.showOrder})
+        </foreach>
+        on duplicate key update
+        class_name = values(class_name),
+        rule_dim = values(rule_dim),
+        show_order = values(show_order)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t02_rule_class
+        <set>
+            <if test="className != null and className != ''">
+                class_name = #{className},
+            </if>
+            <if test="ruleDim != null and ruleDim != ''">
+                rule_dim = #{ruleDim},
+            </if>
+            <if test="showOrder != null">
+                show_order = #{showOrder},
+            </if>
+        </set>
+        where class_no = #{classNo}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from t02_rule_class
+        where class_no = #{classNo}
+    </delete>
+
+</mapper>
+

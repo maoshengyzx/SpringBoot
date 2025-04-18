@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lp.kh.springbootlpkh.mapper.RJobentryCopyMapper">
+
+    <resultMap type="com.lp.kh.springbootlpkh.entity.RJobentryCopy" id="RJobentryCopyMap">
+        <result property="idJobentryCopy" column="id_jobentry_copy" jdbcType="VARCHAR"/>
+        <result property="idJobentry" column="id_jobentry" jdbcType="VARCHAR"/>
+        <result property="idJob" column="id_job" jdbcType="VARCHAR"/>
+        <result property="idJobentryType" column="id_jobentry_type" jdbcType="VARCHAR"/>
+        <result property="nr" column="nr" jdbcType="VARCHAR"/>
+        <result property="guiLocationX" column="gui_location_x" jdbcType="VARCHAR"/>
+        <result property="guiLocationY" column="gui_location_y" jdbcType="VARCHAR"/>
+        <result property="guiDraw" column="gui_draw" jdbcType="VARCHAR"/>
+        <result property="parallel" column="parallel" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="RJobentryCopyMap">
+        select id_jobentry_copy,
+               id_jobentry,
+               id_job,
+               id_jobentry_type,
+               nr,
+               gui_location_x,
+               gui_location_y,
+               gui_draw,
+               parallel
+        from r_jobentry_copy
+        where id_jobentry_copy = #{idJobentryCopy}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="RJobentryCopyMap">
+        select
+        id_jobentry_copy, id_jobentry, id_job, id_jobentry_type, nr, gui_location_x, gui_location_y, gui_draw, parallel
+        from r_jobentry_copy
+        <where>
+            <if test="idJobentryCopy != null and idJobentryCopy != ''">
+                and id_jobentry_copy = #{idJobentryCopy}
+            </if>
+            <if test="idJobentry != null and idJobentry != ''">
+                and id_jobentry = #{idJobentry}
+            </if>
+            <if test="idJob != null and idJob != ''">
+                and id_job = #{idJob}
+            </if>
+            <if test="idJobentryType != null and idJobentryType != ''">
+                and id_jobentry_type = #{idJobentryType}
+            </if>
+            <if test="nr != null and nr != ''">
+                and nr = #{nr}
+            </if>
+            <if test="guiLocationX != null and guiLocationX != ''">
+                and gui_location_x = #{guiLocationX}
+            </if>
+            <if test="guiLocationY != null and guiLocationY != ''">
+                and gui_location_y = #{guiLocationY}
+            </if>
+            <if test="guiDraw != null and guiDraw != ''">
+                and gui_draw = #{guiDraw}
+            </if>
+            <if test="parallel != null and parallel != ''">
+                and parallel = #{parallel}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from r_jobentry_copy
+        <where>
+            <if test="idJobentryCopy != null and idJobentryCopy != ''">
+                and id_jobentry_copy = #{idJobentryCopy}
+            </if>
+            <if test="idJobentry != null and idJobentry != ''">
+                and id_jobentry = #{idJobentry}
+            </if>
+            <if test="idJob != null and idJob != ''">
+                and id_job = #{idJob}
+            </if>
+            <if test="idJobentryType != null and idJobentryType != ''">
+                and id_jobentry_type = #{idJobentryType}
+            </if>
+            <if test="nr != null and nr != ''">
+                and nr = #{nr}
+            </if>
+            <if test="guiLocationX != null and guiLocationX != ''">
+                and gui_location_x = #{guiLocationX}
+            </if>
+            <if test="guiLocationY != null and guiLocationY != ''">
+                and gui_location_y = #{guiLocationY}
+            </if>
+            <if test="guiDraw != null and guiDraw != ''">
+                and gui_draw = #{guiDraw}
+            </if>
+            <if test="parallel != null and parallel != ''">
+                and parallel = #{parallel}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="idJobentryCopy" useGeneratedKeys="true">
+        insert into r_jobentry_copy(id_jobentry, id_job, id_jobentry_type, nr, gui_location_x, gui_location_y, gui_draw,
+                                    parallel)
+        values (#{idJobentry}, #{idJob}, #{idJobentryType}, #{nr}, #{guiLocationX}, #{guiLocationY}, #{guiDraw},
+                #{parallel})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="idJobentryCopy" useGeneratedKeys="true">
+        insert into r_jobentry_copy(id_jobentry, id_job, id_jobentry_type, nr, gui_location_x, gui_location_y, gui_draw,
+        parallel)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.idJobentry}, #{entity.idJob}, #{entity.idJobentryType}, #{entity.nr}, #{entity.guiLocationX},
+            #{entity.guiLocationY}, #{entity.guiDraw}, #{entity.parallel})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="idJobentryCopy" useGeneratedKeys="true">
+        insert into r_jobentry_copy(id_jobentry, id_job, id_jobentry_type, nr, gui_location_x, gui_location_y, gui_draw,
+        parallel)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.idJobentry}, #{entity.idJob}, #{entity.idJobentryType}, #{entity.nr}, #{entity.guiLocationX},
+            #{entity.guiLocationY}, #{entity.guiDraw}, #{entity.parallel})
+        </foreach>
+        on duplicate key update
+        id_jobentry = values(id_jobentry),
+        id_job = values(id_job),
+        id_jobentry_type = values(id_jobentry_type),
+        nr = values(nr),
+        gui_location_x = values(gui_location_x),
+        gui_location_y = values(gui_location_y),
+        gui_draw = values(gui_draw),
+        parallel = values(parallel)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update r_jobentry_copy
+        <set>
+            <if test="idJobentry != null and idJobentry != ''">
+                id_jobentry = #{idJobentry},
+            </if>
+            <if test="idJob != null and idJob != ''">
+                id_job = #{idJob},
+            </if>
+            <if test="idJobentryType != null and idJobentryType != ''">
+                id_jobentry_type = #{idJobentryType},
+            </if>
+            <if test="nr != null and nr != ''">
+                nr = #{nr},
+            </if>
+            <if test="guiLocationX != null and guiLocationX != ''">
+                gui_location_x = #{guiLocationX},
+            </if>
+            <if test="guiLocationY != null and guiLocationY != ''">
+                gui_location_y = #{guiLocationY},
+            </if>
+            <if test="guiDraw != null and guiDraw != ''">
+                gui_draw = #{guiDraw},
+            </if>
+            <if test="parallel != null and parallel != ''">
+                parallel = #{parallel},
+            </if>
+        </set>
+        where id_jobentry_copy = #{idJobentryCopy}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from r_jobentry_copy
+        where id_jobentry_copy = #{idJobentryCopy}
+    </delete>
+
+</mapper>
+

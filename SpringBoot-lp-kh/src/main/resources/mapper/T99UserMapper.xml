@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lp.kh.springbootlpkh.mapper.T99UserMapper">
+
+    <resultMap type="com.lp.kh.springbootlpkh.entity.T99User" id="T99UserMap">
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="mobilePhone" column="mobile_phone" jdbcType="VARCHAR"/>
+        <result property="workPhone" column="work_phone" jdbcType="VARCHAR"/>
+        <result property="creatorId" column="creator_id" jdbcType="VARCHAR"/>
+        <result property="creatorName" column="creator_name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="lastModifierId" column="last_modifier_id" jdbcType="VARCHAR"/>
+        <result property="lastModifierName" column="last_modifier_name" jdbcType="VARCHAR"/>
+        <result property="lastModifyTime" column="last_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="validFlag" column="valid_flag" jdbcType="VARCHAR"/>
+        <result property="expireTime" column="expire_time" jdbcType="TIMESTAMP"/>
+        <result property="admin" column="admin" jdbcType="VARCHAR"/>
+        <result property="builtIn" column="built_in" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="verifySource" column="verify_source" jdbcType="VARCHAR"/>
+        <result property="birthday" column="birthday" jdbcType="TIMESTAMP"/>
+        <result property="realName" column="real_name" jdbcType="VARCHAR"/>
+        <result property="avatarAttachId" column="avatar_attach_id" jdbcType="INTEGER"/>
+        <result property="weixin" column="weixin" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="T99UserMap">
+        select user_id,
+               user_name,
+               password,
+               sex,
+               email,
+               mobile_phone,
+               work_phone,
+               creator_id,
+               creator_name,
+               create_time,
+               last_modifier_id,
+               last_modifier_name,
+               last_modify_time,
+               valid_flag,
+               expire_time,
+               admin,
+               built_in,
+               description,
+               verify_source,
+               birthday,
+               real_name,
+               avatar_attach_id,
+               weixin
+        from t99_user
+        where user_id = #{userId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="T99UserMap">
+        select
+        user_id, user_name, password, sex, email, mobile_phone, work_phone, creator_id, creator_name, create_time,
+        last_modifier_id, last_modifier_name, last_modify_time, valid_flag, expire_time, admin, built_in, description,
+        verify_source, birthday, real_name, avatar_attach_id, weixin
+        from t99_user
+        <where>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="mobilePhone != null and mobilePhone != ''">
+                and mobile_phone = #{mobilePhone}
+            </if>
+            <if test="workPhone != null and workPhone != ''">
+                and work_phone = #{workPhone}
+            </if>
+            <if test="creatorId != null and creatorId != ''">
+                and creator_id = #{creatorId}
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                and creator_name = #{creatorName}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="lastModifierId != null and lastModifierId != ''">
+                and last_modifier_id = #{lastModifierId}
+            </if>
+            <if test="lastModifierName != null and lastModifierName != ''">
+                and last_modifier_name = #{lastModifierName}
+            </if>
+            <if test="lastModifyTime != null">
+                and last_modify_time = #{lastModifyTime}
+            </if>
+            <if test="validFlag != null and validFlag != ''">
+                and valid_flag = #{validFlag}
+            </if>
+            <if test="expireTime != null">
+                and expire_time = #{expireTime}
+            </if>
+            <if test="admin != null and admin != ''">
+                and admin = #{admin}
+            </if>
+            <if test="builtIn != null and builtIn != ''">
+                and built_in = #{builtIn}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="verifySource != null and verifySource != ''">
+                and verify_source = #{verifySource}
+            </if>
+            <if test="birthday != null">
+                and birthday = #{birthday}
+            </if>
+            <if test="realName != null and realName != ''">
+                and real_name = #{realName}
+            </if>
+            <if test="avatarAttachId != null">
+                and avatar_attach_id = #{avatarAttachId}
+            </if>
+            <if test="weixin != null and weixin != ''">
+                and weixin = #{weixin}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from t99_user
+        <where>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="mobilePhone != null and mobilePhone != ''">
+                and mobile_phone = #{mobilePhone}
+            </if>
+            <if test="workPhone != null and workPhone != ''">
+                and work_phone = #{workPhone}
+            </if>
+            <if test="creatorId != null and creatorId != ''">
+                and creator_id = #{creatorId}
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                and creator_name = #{creatorName}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="lastModifierId != null and lastModifierId != ''">
+                and last_modifier_id = #{lastModifierId}
+            </if>
+            <if test="lastModifierName != null and lastModifierName != ''">
+                and last_modifier_name = #{lastModifierName}
+            </if>
+            <if test="lastModifyTime != null">
+                and last_modify_time = #{lastModifyTime}
+            </if>
+            <if test="validFlag != null and validFlag != ''">
+                and valid_flag = #{validFlag}
+            </if>
+            <if test="expireTime != null">
+                and expire_time = #{expireTime}
+            </if>
+            <if test="admin != null and admin != ''">
+                and admin = #{admin}
+            </if>
+            <if test="builtIn != null and builtIn != ''">
+                and built_in = #{builtIn}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="verifySource != null and verifySource != ''">
+                and verify_source = #{verifySource}
+            </if>
+            <if test="birthday != null">
+                and birthday = #{birthday}
+            </if>
+            <if test="realName != null and realName != ''">
+                and real_name = #{realName}
+            </if>
+            <if test="avatarAttachId != null">
+                and avatar_attach_id = #{avatarAttachId}
+            </if>
+            <if test="weixin != null and weixin != ''">
+                and weixin = #{weixin}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
+        insert into t99_user(user_name, password, sex, email, mobile_phone, work_phone, creator_id, creator_name,
+                             create_time, last_modifier_id, last_modifier_name, last_modify_time, valid_flag,
+                             expire_time, admin, built_in, description, verify_source, birthday, real_name,
+                             avatar_attach_id, weixin)
+        values (#{userName}, #{password}, #{sex}, #{email}, #{mobilePhone}, #{workPhone}, #{creatorId}, #{creatorName},
+                #{createTime}, #{lastModifierId}, #{lastModifierName}, #{lastModifyTime}, #{validFlag}, #{expireTime},
+                #{admin}, #{builtIn}, #{description}, #{verifySource}, #{birthday}, #{realName}, #{avatarAttachId},
+                #{weixin})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="userId" useGeneratedKeys="true">
+        insert into t99_user(user_name, password, sex, email, mobile_phone, work_phone, creator_id, creator_name,
+        create_time, last_modifier_id, last_modifier_name, last_modify_time, valid_flag, expire_time, admin, built_in,
+        description, verify_source, birthday, real_name, avatar_attach_id, weixin)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userName}, #{entity.password}, #{entity.sex}, #{entity.email}, #{entity.mobilePhone},
+            #{entity.workPhone}, #{entity.creatorId}, #{entity.creatorName}, #{entity.createTime},
+            #{entity.lastModifierId}, #{entity.lastModifierName}, #{entity.lastModifyTime}, #{entity.validFlag},
+            #{entity.expireTime}, #{entity.admin}, #{entity.builtIn}, #{entity.description}, #{entity.verifySource},
+            #{entity.birthday}, #{entity.realName}, #{entity.avatarAttachId}, #{entity.weixin})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="userId" useGeneratedKeys="true">
+        insert into t99_user(user_name, password, sex, email, mobile_phone, work_phone, creator_id, creator_name,
+        create_time, last_modifier_id, last_modifier_name, last_modify_time, valid_flag, expire_time, admin, built_in,
+        description, verify_source, birthday, real_name, avatar_attach_id, weixin)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userName}, #{entity.password}, #{entity.sex}, #{entity.email}, #{entity.mobilePhone},
+            #{entity.workPhone}, #{entity.creatorId}, #{entity.creatorName}, #{entity.createTime},
+            #{entity.lastModifierId}, #{entity.lastModifierName}, #{entity.lastModifyTime}, #{entity.validFlag},
+            #{entity.expireTime}, #{entity.admin}, #{entity.builtIn}, #{entity.description}, #{entity.verifySource},
+            #{entity.birthday}, #{entity.realName}, #{entity.avatarAttachId}, #{entity.weixin})
+        </foreach>
+        on duplicate key update
+        user_name = values(user_name),
+        password = values(password),
+        sex = values(sex),
+        email = values(email),
+        mobile_phone = values(mobile_phone),
+        work_phone = values(work_phone),
+        creator_id = values(creator_id),
+        creator_name = values(creator_name),
+        create_time = values(create_time),
+        last_modifier_id = values(last_modifier_id),
+        last_modifier_name = values(last_modifier_name),
+        last_modify_time = values(last_modify_time),
+        valid_flag = values(valid_flag),
+        expire_time = values(expire_time),
+        admin = values(admin),
+        built_in = values(built_in),
+        description = values(description),
+        verify_source = values(verify_source),
+        birthday = values(birthday),
+        real_name = values(real_name),
+        avatar_attach_id = values(avatar_attach_id),
+        weixin = values(weixin)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t99_user
+        <set>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="mobilePhone != null and mobilePhone != ''">
+                mobile_phone = #{mobilePhone},
+            </if>
+            <if test="workPhone != null and workPhone != ''">
+                work_phone = #{workPhone},
+            </if>
+            <if test="creatorId != null and creatorId != ''">
+                creator_id = #{creatorId},
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                creator_name = #{creatorName},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="lastModifierId != null and lastModifierId != ''">
+                last_modifier_id = #{lastModifierId},
+            </if>
+            <if test="lastModifierName != null and lastModifierName != ''">
+                last_modifier_name = #{lastModifierName},
+            </if>
+            <if test="lastModifyTime != null">
+                last_modify_time = #{lastModifyTime},
+            </if>
+            <if test="validFlag != null and validFlag != ''">
+                valid_flag = #{validFlag},
+            </if>
+            <if test="expireTime != null">
+                expire_time = #{expireTime},
+            </if>
+            <if test="admin != null and admin != ''">
+                admin = #{admin},
+            </if>
+            <if test="builtIn != null and builtIn != ''">
+                built_in = #{builtIn},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="verifySource != null and verifySource != ''">
+                verify_source = #{verifySource},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="realName != null and realName != ''">
+                real_name = #{realName},
+            </if>
+            <if test="avatarAttachId != null">
+                avatar_attach_id = #{avatarAttachId},
+            </if>
+            <if test="weixin != null and weixin != ''">
+                weixin = #{weixin},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from t99_user
+        where user_id = #{userId}
+    </delete>
+
+</mapper>
+

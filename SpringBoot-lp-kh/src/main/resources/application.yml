@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: SpringBoot-lp-kh
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql:///kettle?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+
+
+# MyBatis\u914D\u7F6E
+mybatis:
+  # \u641C\u7D22\u6307\u5B9A\u5305\u522B\u540D
+  typeAliasesPackage: com.lp.**.domain
+  # \u914D\u7F6Emapper\u7684\u626B\u63CF\uFF0C\u627E\u5230\u6240\u6709\u7684mapper.xml\u6620\u5C04\u6587\u4EF6
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

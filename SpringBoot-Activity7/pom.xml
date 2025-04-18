@@ -31,11 +31,11 @@
 			<version>3.0.3</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-spring-boot-starter</artifactId>
-			<version>${activiti.version}</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.activiti</groupId>-->
+<!--			<artifactId>activiti-spring-boot-starter</artifactId>-->
+<!--			<version>${activiti.version}</version>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>com.mysql</groupId>

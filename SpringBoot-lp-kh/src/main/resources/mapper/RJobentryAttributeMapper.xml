@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lp.kh.springbootlpkh.mapper.RJobentryAttributeMapper">
+
+    <resultMap type="com.lp.kh.springbootlpkh.entity.RJobentryAttribute" id="RJobentryAttributeMap">
+        <result property="idJobentryAttribute" column="id_jobentry_attribute" jdbcType="VARCHAR"/>
+        <result property="idJob" column="id_job" jdbcType="VARCHAR"/>
+        <result property="idJobentry" column="id_jobentry" jdbcType="VARCHAR"/>
+        <result property="nr" column="nr" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="valueNum" column="value_num" jdbcType="VARCHAR"/>
+        <result property="valueStr" column="value_str" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="RJobentryAttributeMap">
+        select id_jobentry_attribute,
+               id_job,
+               id_jobentry,
+               nr,
+               code,
+               value_num,
+               value_str
+        from r_jobentry_attribute
+        where id_jobentry_attribute = #{idJobentryAttribute}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="RJobentryAttributeMap">
+        select
+        id_jobentry_attribute, id_job, id_jobentry, nr, code, value_num, value_str
+        from r_jobentry_attribute
+        <where>
+            <if test="idJobentryAttribute != null and idJobentryAttribute != ''">
+                and id_jobentry_attribute = #{idJobentryAttribute}
+            </if>
+            <if test="idJob != null and idJob != ''">
+                and id_job = #{idJob}
+            </if>
+            <if test="idJobentry != null and idJobentry != ''">
+                and id_jobentry = #{idJobentry}
+            </if>
+            <if test="nr != null and nr != ''">
+                and nr = #{nr}
+            </if>
+            <if test="code != null and code != ''">
+                and code = #{code}
+            </if>
+            <if test="valueNum != null and valueNum != ''">
+                and value_num = #{valueNum}
+            </if>
+            <if test="valueStr != null and valueStr != ''">
+                and value_str = #{valueStr}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from r_jobentry_attribute
+        <where>
+            <if test="idJobentryAttribute != null and idJobentryAttribute != ''">
+                and id_jobentry_attribute = #{idJobentryAttribute}
+            </if>
+            <if test="idJob != null and idJob != ''">
+                and id_job = #{idJob}
+            </if>
+            <if test="idJobentry != null and idJobentry != ''">
+                and id_jobentry = #{idJobentry}
+            </if>
+            <if test="nr != null and nr != ''">
+                and nr = #{nr}
+            </if>
+            <if test="code != null and code != ''">
+                and code = #{code}
+            </if>
+            <if test="valueNum != null and valueNum != ''">
+                and value_num = #{valueNum}
+            </if>
+            <if test="valueStr != null and valueStr != ''">
+                and value_str = #{valueStr}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="idJobentryAttribute" useGeneratedKeys="true">
+        insert into r_jobentry_attribute(id_job, id_jobentry, nr, code, value_num, value_str)
+        values (#{idJob}, #{idJobentry}, #{nr}, #{code}, #{valueNum}, #{valueStr})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="idJobentryAttribute" useGeneratedKeys="true">
+        insert into r_jobentry_attribute(id_job, id_jobentry, nr, code, value_num, value_str)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.idJob}, #{entity.idJobentry}, #{entity.nr}, #{entity.code}, #{entity.valueNum},
+            #{entity.valueStr})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="idJobentryAttribute" useGeneratedKeys="true">
+        insert into r_jobentry_attribute(id_job, id_jobentry, nr, code, value_num, value_str)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.idJob}, #{entity.idJobentry}, #{entity.nr}, #{entity.code}, #{entity.valueNum},
+            #{entity.valueStr})
+        </foreach>
+        on duplicate key update
+        id_job = values(id_job),
+        id_jobentry = values(id_jobentry),
+        nr = values(nr),
+        code = values(code),
+        value_num = values(value_num),
+        value_str = values(value_str)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update r_jobentry_attribute
+        <set>
+            <if test="idJob != null and idJob != ''">
+                id_job = #{idJob},
+            </if>
+            <if test="idJobentry != null and idJobentry != ''">
+                id_jobentry = #{idJobentry},
+            </if>
+            <if test="nr != null and nr != ''">
+                nr = #{nr},
+            </if>
+            <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+            <if test="valueNum != null and valueNum != ''">
+                value_num = #{valueNum},
+            </if>
+            <if test="valueStr != null and valueStr != ''">
+                value_str = #{valueStr},
+            </if>
+        </set>
+        where id_jobentry_attribute = #{idJobentryAttribute}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from r_jobentry_attribute
+        where id_jobentry_attribute = #{idJobentryAttribute}
+    </delete>
+
+</mapper>
+

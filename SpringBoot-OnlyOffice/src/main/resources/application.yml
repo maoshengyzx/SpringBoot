@@ -1,0 +1,5 @@
+spring:
+    application:
+      name: SpringBoot-OnlyOffice
+server:
+  port: 8080

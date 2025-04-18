@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lp.kh.springbootlpkh.mapper.T04DataqualityDataMapper">
+
+    <resultMap type="com.lp.kh.springbootlpkh.entity.T04DataqualityData" id="T04DataqualityDataMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="dataqualityId" column="dataquality_id" jdbcType="INTEGER"/>
+        <result property="auditTaskId" column="audit_task_id" jdbcType="INTEGER"/>
+        <result property="ruleId" column="rule_id" jdbcType="INTEGER"/>
+        <result property="ruleName" column="rule_name" jdbcType="VARCHAR"/>
+        <result property="ruleDesc" column="rule_desc" jdbcType="VARCHAR"/>
+        <result property="objectId" column="object_id" jdbcType="INTEGER"/>
+        <result property="objectCode" column="object_code" jdbcType="VARCHAR"/>
+        <result property="objectName" column="object_name" jdbcType="VARCHAR"/>
+        <result property="classifierId" column="classifier_id" jdbcType="VARCHAR"/>
+        <result property="classifierName" column="classifier_name" jdbcType="VARCHAR"/>
+        <result property="datasourceId" column="datasource_id" jdbcType="VARCHAR"/>
+        <result property="datasourceName" column="datasource_name" jdbcType="VARCHAR"/>
+        <result property="systemId" column="system_id" jdbcType="INTEGER"/>
+        <result property="systemName" column="system_name" jdbcType="VARCHAR"/>
+        <result property="executeTime" column="execute_time" jdbcType="TIMESTAMP"/>
+        <result property="resultStatus" column="result_status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="T04DataqualityDataMap">
+        select id,
+               dataquality_id,
+               audit_task_id,
+               rule_id,
+               rule_name,
+               rule_desc,
+               object_id,
+               object_code,
+               object_name,
+               classifier_id,
+               classifier_name,
+               datasource_id,
+               datasource_name,
+               system_id,
+               system_name,
+               execute_time,
+               result_status
+        from t04_dataquality_data
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="T04DataqualityDataMap">
+        select
+        id, dataquality_id, audit_task_id, rule_id, rule_name, rule_desc, object_id, object_code, object_name,
+        classifier_id, classifier_name, datasource_id, datasource_name, system_id, system_name, execute_time,
+        result_status
+        from t04_dataquality_data
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="dataqualityId != null">
+                and dataquality_id = #{dataqualityId}
+            </if>
+            <if test="auditTaskId != null">
+                and audit_task_id = #{auditTaskId}
+            </if>
+            <if test="ruleId != null">
+                and rule_id = #{ruleId}
+            </if>
+            <if test="ruleName != null and ruleName != ''">
+                and rule_name = #{ruleName}
+            </if>
+            <if test="ruleDesc != null and ruleDesc != ''">
+                and rule_desc = #{ruleDesc}
+            </if>
+            <if test="objectId != null">
+                and object_id = #{objectId}
+            </if>
+            <if test="objectCode != null and objectCode != ''">
+                and object_code = #{objectCode}
+            </if>
+            <if test="objectName != null and objectName != ''">
+                and object_name = #{objectName}
+            </if>
+            <if test="classifierId != null and classifierId != ''">
+                and classifier_id = #{classifierId}
+            </if>
+            <if test="classifierName != null and classifierName != ''">
+                and classifier_name = #{classifierName}
+            </if>
+            <if test="datasourceId != null and datasourceId != ''">
+                and datasource_id = #{datasourceId}
+            </if>
+            <if test="datasourceName != null and datasourceName != ''">
+                and datasource_name = #{datasourceName}
+            </if>
+            <if test="systemId != null">
+                and system_id = #{systemId}
+            </if>
+            <if test="systemName != null and systemName != ''">
+                and system_name = #{systemName}
+            </if>
+            <if test="executeTime != null">
+                and execute_time = #{executeTime}
+            </if>
+            <if test="resultStatus != null and resultStatus != ''">
+                and result_status = #{resultStatus}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from t04_dataquality_data
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="dataqualityId != null">
+                and dataquality_id = #{dataqualityId}
+            </if>
+            <if test="auditTaskId != null">
+                and audit_task_id = #{auditTaskId}
+            </if>
+            <if test="ruleId != null">
+                and rule_id = #{ruleId}
+            </if>
+            <if test="ruleName != null and ruleName != ''">
+                and rule_name = #{ruleName}
+            </if>
+            <if test="ruleDesc != null and ruleDesc != ''">
+                and rule_desc = #{ruleDesc}
+            </if>
+            <if test="objectId != null">
+                and object_id = #{objectId}
+            </if>
+            <if test="objectCode != null and objectCode != ''">
+                and object_code = #{objectCode}
+            </if>
+            <if test="objectName != null and objectName != ''">
+                and object_name = #{objectName}
+            </if>
+            <if test="classifierId != null and classifierId != ''">
+                and classifier_id = #{classifierId}
+            </if>
+            <if test="classifierName != null and classifierName != ''">
+                and classifier_name = #{classifierName}
+            </if>
+            <if test="datasourceId != null and datasourceId != ''">
+                and datasource_id = #{datasourceId}
+            </if>
+            <if test="datasourceName != null and datasourceName != ''">
+                and datasource_name = #{datasourceName}
+            </if>
+            <if test="systemId != null">
+                and system_id = #{systemId}
+            </if>
+            <if test="systemName != null and systemName != ''">
+                and system_name = #{systemName}
+            </if>
+            <if test="executeTime != null">
+                and execute_time = #{executeTime}
+            </if>
+            <if test="resultStatus != null and resultStatus != ''">
+                and result_status = #{resultStatus}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into t04_dataquality_data(dataquality_id, audit_task_id, rule_id, rule_name, rule_desc, object_id,
+                                         object_code, object_name, classifier_id, classifier_name, datasource_id,
+                                         datasource_name, system_id, system_name, execute_time, result_status)
+        values (#{dataqualityId}, #{auditTaskId}, #{ruleId}, #{ruleName}, #{ruleDesc}, #{objectId}, #{objectCode},
+                #{objectName}, #{classifierId}, #{classifierName}, #{datasourceId}, #{datasourceName}, #{systemId},
+                #{systemName}, #{executeTime}, #{resultStatus})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into t04_dataquality_data(dataquality_id, audit_task_id, rule_id, rule_name, rule_desc, object_id,
+        object_code, object_name, classifier_id, classifier_name, datasource_id, datasource_name, system_id,
+        system_name, execute_time, result_status)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.dataqualityId}, #{entity.auditTaskId}, #{entity.ruleId}, #{entity.ruleName}, #{entity.ruleDesc},
+            #{entity.objectId}, #{entity.objectCode}, #{entity.objectName}, #{entity.classifierId},
+            #{entity.classifierName}, #{entity.datasourceId}, #{entity.datasourceName}, #{entity.systemId},
+            #{entity.systemName}, #{entity.executeTime}, #{entity.resultStatus})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into t04_dataquality_data(dataquality_id, audit_task_id, rule_id, rule_name, rule_desc, object_id,
+        object_code, object_name, classifier_id, classifier_name, datasource_id, datasource_name, system_id,
+        system_name, execute_time, result_status)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.dataqualityId}, #{entity.auditTaskId}, #{entity.ruleId}, #{entity.ruleName}, #{entity.ruleDesc},
+            #{entity.objectId}, #{entity.objectCode}, #{entity.objectName}, #{entity.classifierId},
+            #{entity.classifierName}, #{entity.datasourceId}, #{entity.datasourceName}, #{entity.systemId},
+            #{entity.systemName}, #{entity.executeTime}, #{entity.resultStatus})
+        </foreach>
+        on duplicate key update
+        dataquality_id = values(dataquality_id),
+        audit_task_id = values(audit_task_id),
+        rule_id = values(rule_id),
+        rule_name = values(rule_name),
+        rule_desc = values(rule_desc),
+        object_id = values(object_id),
+        object_code = values(object_code),
+        object_name = values(object_name),
+        classifier_id = values(classifier_id),
+        classifier_name = values(classifier_name),
+        datasource_id = values(datasource_id),
+        datasource_name = values(datasource_name),
+        system_id = values(system_id),
+        system_name = values(system_name),
+        execute_time = values(execute_time),
+        result_status = values(result_status)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t04_dataquality_data
+        <set>
+            <if test="dataqualityId != null">
+                dataquality_id = #{dataqualityId},
+            </if>
+            <if test="auditTaskId != null">
+                audit_task_id = #{auditTaskId},
+            </if>
+            <if test="ruleId != null">
+                rule_id = #{ruleId},
+            </if>
+            <if test="ruleName != null and ruleName != ''">
+                rule_name = #{ruleName},
+            </if>
+            <if test="ruleDesc != null and ruleDesc != ''">
+                rule_desc = #{ruleDesc},
+            </if>
+            <if test="objectId != null">
+                object_id = #{objectId},
+            </if>
+            <if test="objectCode != null and objectCode != ''">
+                object_code = #{objectCode},
+            </if>
+            <if test="objectName != null and objectName != ''">
+                object_name = #{objectName},
+            </if>
+            <if test="classifierId != null and classifierId != ''">
+                classifier_id = #{classifierId},
+            </if>
+            <if test="classifierName != null and classifierName != ''">
+                classifier_name = #{classifierName},
+            </if>
+            <if test="datasourceId != null and datasourceId != ''">
+                datasource_id = #{datasourceId},
+            </if>
+            <if test="datasourceName != null and datasourceName != ''">
+                datasource_name = #{datasourceName},
+            </if>
+            <if test="systemId != null">
+                system_id = #{systemId},
+            </if>
+            <if test="systemName != null and systemName != ''">
+                system_name = #{systemName},
+            </if>
+            <if test="executeTime != null">
+                execute_time = #{executeTime},
+            </if>
+            <if test="resultStatus != null and resultStatus != ''">
+                result_status = #{resultStatus},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from t04_dataquality_data
+        where id = #{id}
+    </delete>
+
+</mapper>
+

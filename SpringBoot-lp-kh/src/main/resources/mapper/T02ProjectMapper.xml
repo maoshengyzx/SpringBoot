@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lp.kh.springbootlpkh.mapper.T02ProjectMapper">
+
+    <resultMap type="com.lp.kh.springbootlpkh.entity.T02Project" id="T02ProjectMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="projectNo" column="project_no" jdbcType="VARCHAR"/>
+        <result property="projectName" column="project_name" jdbcType="VARCHAR"/>
+        <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+        <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="managerId" column="manager_id" jdbcType="VARCHAR"/>
+        <result property="creatorId" column="creator_id" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="lastModifierId" column="last_modifier_id" jdbcType="VARCHAR"/>
+        <result property="lastModifyTime" column="last_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="getProjectCount" resultType="int">
+        select count(*)
+        from t02_project
+    </select>
+    <select id="getProjectDetailsGroupCount" resultType="com.lp.kh.springbootlpkh.vo.ProjectDetailsGroupVO">
+        SELECT
+            tp.project_name AS projectName,
+            COUNT(DISTINCT tr.id) AS ruleCount,
+            COUNT(tar.id) AS checkCount,
+            SUM(CASE WHEN tar.result = 3 THEN 1 ELSE 0 END) AS severeCount,
+            SUM(CASE WHEN tar.result = 2 THEN 1 ELSE 0 END) AS alertCount
+        FROM
+            t02_project tp
+                JOIN
+            t02_rule tr ON tp.id = tr.project_id
+                JOIN
+            t02_audit_result tar ON tr.id = tar.rule_id
+        WHERE
+            tar.create_time BETWEEN #{day} AND #{day} + INTERVAL 1 DAY - INTERVAL 1 SECOND
+        GROUP BY
+            tp.project_name
+    </select>
+    <select id="getRuleQualityVOS" resultType="com.lp.kh.springbootlpkh.vo.RuleQualityVO">
+        SELECT tp.project_name                                       AS projectName,
+               tu.user_name                                          AS managerName,
+               tr.rule_name                                          AS ruleName,
+               tr.id                                                 AS ruleId,
+               SUM(CASE WHEN tar.result = 2 THEN 1 ELSE 0 END)       AS alertCount,
+               SUM(CASE WHEN tar.result = 3 THEN 1 ELSE 0 END)       AS severeCount,
+               SUM(CASE WHEN tar.result IN (2, 3) THEN 1 ELSE 0 END) AS total_count
+        FROM t02_project tp
+                 JOIN
+             t99_user tu ON tp.manager_id = tu.user_id
+                 JOIN
+             t02_rule tr ON tp.id = tr.project_id
+                 JOIN
+             t02_audit_result tar ON tr.id = tar.rule_id
+        WHERE tar.create_time BETWEEN #{day} AND #{day} + INTERVAL 1 DAY - INTERVAL 1 SECOND
+        GROUP BY
+            tp.project_name, tu.user_name, tr.rule_name, tr.id
+        ORDER BY
+            total_count DESC
+        LIMIT 10
+    </select>
+</mapper>
+

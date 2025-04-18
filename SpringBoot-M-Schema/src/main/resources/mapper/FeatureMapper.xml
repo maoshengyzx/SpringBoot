@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springbootmschema.mapper.FeatureMapper">
+
+    <resultMap type="com.example.springbootmschema.entity.Feature" id="FeatureMap">
+        <result property="attId" column="att_id" jdbcType="VARCHAR"/>
+        <result property="attCode" column="att_code" jdbcType="VARCHAR"/>
+        <result property="classifierId" column="classifier_id" jdbcType="VARCHAR"/>
+        <result property="attName" column="att_name" jdbcType="VARCHAR"/>
+        <result property="inheritFlag" column="inherit_flag" jdbcType="VARCHAR"/>
+        <result property="isRead" column="is_read" jdbcType="VARCHAR"/>
+        <result property="isNull" column="is_null" jdbcType="VARCHAR"/>
+        <result property="isCompare" column="is_compare" jdbcType="VARCHAR"/>
+        <result property="isShow" column="is_show" jdbcType="VARCHAR"/>
+        <result property="isKey" column="is_key" jdbcType="VARCHAR"/>
+        <result property="isClob" column="is_clob" jdbcType="VARCHAR"/>
+        <result property="isHighlight" column="is_highlight" jdbcType="VARCHAR"/>
+        <result property="isSingleLine" column="is_single_line" jdbcType="VARCHAR"/>
+        <result property="isLink" column="is_link" jdbcType="VARCHAR"/>
+        <result property="attrType" column="attr_type" jdbcType="VARCHAR"/>
+        <result property="defaultValue" column="default_value" jdbcType="VARCHAR"/>
+        <result property="datatypeId" column="datatype_id" jdbcType="VARCHAR"/>
+        <result property="length" column="length" jdbcType="INTEGER"/>
+        <result property="maxLength" column="max_length" jdbcType="INTEGER"/>
+        <result property="minLength" column="min_length" jdbcType="INTEGER"/>
+        <result property="dataPrecision" column="data_precision" jdbcType="VARCHAR"/>
+        <result property="combId" column="comb_id" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="regularPattern" column="regular_pattern" jdbcType="VARCHAR"/>
+        <result property="validateFailureTip" column="validate_failure_tip" jdbcType="VARCHAR"/>
+        <result property="attOrder" column="att_order" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="FeatureMap">
+        select att_id,
+               att_code,
+               classifier_id,
+               att_name,
+               inherit_flag,
+               is_read,
+               is_null,
+               is_compare,
+               is_show,
+               is_key,
+               is_clob,
+               is_highlight,
+               is_single_line,
+               is_link,
+               attr_type,
+               default_value,
+               datatype_id,
+               length,
+               max_length,
+               min_length,
+               data_precision,
+               comb_id,
+               description,
+               regular_pattern,
+               validate_failure_tip,
+               att_order
+        from t00_feature
+        where att_id = #{attId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="FeatureMap">
+        select
+        att_id, att_code, classifier_id, att_name, inherit_flag, is_read, is_null, is_compare, is_show, is_key, is_clob,
+        is_highlight, is_single_line, is_link, attr_type, default_value, datatype_id, length, max_length, min_length,
+        data_precision, comb_id, description, regular_pattern, validate_failure_tip, att_order
+        from t00_feature
+        <where>
+            <if test="attId != null and attId != ''">
+                and att_id = #{attId}
+            </if>
+            <if test="attCode != null and attCode != ''">
+                and att_code = #{attCode}
+            </if>
+            <if test="classifierId != null and classifierId != ''">
+                and classifier_id = #{classifierId}
+            </if>
+            <if test="attName != null and attName != ''">
+                and att_name = #{attName}
+            </if>
+            <if test="inheritFlag != null and inheritFlag != ''">
+                and inherit_flag = #{inheritFlag}
+            </if>
+            <if test="isRead != null and isRead != ''">
+                and is_read = #{isRead}
+            </if>
+            <if test="isNull != null and isNull != ''">
+                and is_null = #{isNull}
+            </if>
+            <if test="isCompare != null and isCompare != ''">
+                and is_compare = #{isCompare}
+            </if>
+            <if test="isShow != null and isShow != ''">
+                and is_show = #{isShow}
+            </if>
+            <if test="isKey != null and isKey != ''">
+                and is_key = #{isKey}
+            </if>
+            <if test="isClob != null and isClob != ''">
+                and is_clob = #{isClob}
+            </if>
+            <if test="isHighlight != null and isHighlight != ''">
+                and is_highlight = #{isHighlight}
+            </if>
+            <if test="isSingleLine != null and isSingleLine != ''">
+                and is_single_line = #{isSingleLine}
+            </if>
+            <if test="isLink != null and isLink != ''">
+                and is_link = #{isLink}
+            </if>
+            <if test="attrType != null and attrType != ''">
+                and attr_type = #{attrType}
+            </if>
+            <if test="defaultValue != null and defaultValue != ''">
+                and default_value = #{defaultValue}
+            </if>
+            <if test="datatypeId != null and datatypeId != ''">
+                and datatype_id = #{datatypeId}
+            </if>
+            <if test="length != null">
+                and length = #{length}
+            </if>
+            <if test="maxLength != null">
+                and max_length = #{maxLength}
+            </if>
+            <if test="minLength != null">
+                and min_length = #{minLength}
+            </if>
+            <if test="dataPrecision != null and dataPrecision != ''">
+                and data_precision = #{dataPrecision}
+            </if>
+            <if test="combId != null and combId != ''">
+                and comb_id = #{combId}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="regularPattern != null and regularPattern != ''">
+                and regular_pattern = #{regularPattern}
+            </if>
+            <if test="validateFailureTip != null and validateFailureTip != ''">
+                and validate_failure_tip = #{validateFailureTip}
+            </if>
+            <if test="attOrder != null">
+                and att_order = #{attOrder}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from t00_feature
+        <where>
+            <if test="attId != null and attId != ''">
+                and att_id = #{attId}
+            </if>
+            <if test="attCode != null and attCode != ''">
+                and att_code = #{attCode}
+            </if>
+            <if test="classifierId != null and classifierId != ''">
+                and classifier_id = #{classifierId}
+            </if>
+            <if test="attName != null and attName != ''">
+                and att_name = #{attName}
+            </if>
+            <if test="inheritFlag != null and inheritFlag != ''">
+                and inherit_flag = #{inheritFlag}
+            </if>
+            <if test="isRead != null and isRead != ''">
+                and is_read = #{isRead}
+            </if>
+            <if test="isNull != null and isNull != ''">
+                and is_null = #{isNull}
+            </if>
+            <if test="isCompare != null and isCompare != ''">
+                and is_compare = #{isCompare}
+            </if>
+            <if test="isShow != null and isShow != ''">
+                and is_show = #{isShow}
+            </if>
+            <if test="isKey != null and isKey != ''">
+                and is_key = #{isKey}
+            </if>
+            <if test="isClob != null and isClob != ''">
+                and is_clob = #{isClob}
+            </if>
+            <if test="isHighlight != null and isHighlight != ''">
+                and is_highlight = #{isHighlight}
+            </if>
+            <if test="isSingleLine != null and isSingleLine != ''">
+                and is_single_line = #{isSingleLine}
+            </if>
+            <if test="isLink != null and isLink != ''">
+                and is_link = #{isLink}
+            </if>
+            <if test="attrType != null and attrType != ''">
+                and attr_type = #{attrType}
+            </if>
+            <if test="defaultValue != null and defaultValue != ''">
+                and default_value = #{defaultValue}
+            </if>
+            <if test="datatypeId != null and datatypeId != ''">
+                and datatype_id = #{datatypeId}
+            </if>
+            <if test="length != null">
+                and length = #{length}
+            </if>
+            <if test="maxLength != null">
+                and max_length = #{maxLength}
+            </if>
+            <if test="minLength != null">
+                and min_length = #{minLength}
+            </if>
+            <if test="dataPrecision != null and dataPrecision != ''">
+                and data_precision = #{dataPrecision}
+            </if>
+            <if test="combId != null and combId != ''">
+                and comb_id = #{combId}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="regularPattern != null and regularPattern != ''">
+                and regular_pattern = #{regularPattern}
+            </if>
+            <if test="validateFailureTip != null and validateFailureTip != ''">
+                and validate_failure_tip = #{validateFailureTip}
+            </if>
+            <if test="attOrder != null">
+                and att_order = #{attOrder}
+            </if>
+        </where>
+    </select>
+    <select id="selectFeatureByClassifierId" resultType="com.example.springbootmschema.entity.Feature">
+        select t1.att_id,
+               t1.att_code,
+               t1.att_name,
+               t1.is_clob,
+               t1.is_read,
+               t1.is_null,
+               t1.is_compare,
+               t1.is_highlight,
+               t1.is_single_line,
+               t1.is_show,
+               t1.attr_type,
+               t1.classifier_id,
+               t1.att_order,
+               t1.default_value,
+               t1.datatype_id,
+               t1.length,
+               t1.max_length,
+               t1.min_length,
+               t1.data_precision,
+               t1.comb_id,
+               t2.att_store,
+               t1.description,
+               t1.regular_pattern,
+               t1.validate_failure_tip
+        from t00_feature t1
+                 inner join t00_feature_col t2
+                            on t2.att_id = t1.att_id
+        where t2.classifier_id = #{classifierId} order by t1.att_order asc
+    </select>
+    <select id="selectFeaturesByClassifierIds" resultType="com.example.springbootmschema.entity.Feature">
+        select t1.att_id,
+        t1.att_code,
+        t1.att_name,
+        t2.att_store,
+        t1.is_clob,
+        t1.is_read,
+        t1.is_null,
+        t1.is_compare,
+        t1.is_highlight,
+        t1.is_single_line,
+        t1.is_show,
+        t1.attr_type,
+        t1.classifier_id,
+        t1.att_order,
+        t1.default_value,
+        t1.datatype_id,
+        t1.length,
+        t1.max_length,
+        t1.min_length,
+        t1.data_precision,
+        t1.comb_id,
+        t1.description,
+        t1.regular_pattern,
+        t1.validate_failure_tip
+        from t00_feature t1
+        inner join t00_feature_col t2
+        on t2.att_id = t1.att_id
+        where t2.classifier_id in
+        <foreach collection="classifierIds" item="classifierId" open="(" separator="," close=")">
+            #{classifierId}
+        </foreach>
+        order by t1.att_order asc
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="attId" useGeneratedKeys="true">
+        insert into t00_feature(att_code, classifier_id, att_name, inherit_flag, is_read, is_null, is_compare, is_show,
+                                is_key, is_clob, is_highlight, is_single_line, is_link, attr_type, default_value,
+                                datatype_id, length, max_length, min_length, data_precision, comb_id, description,
+                                regular_pattern, validate_failure_tip, att_order)
+        values (#{attCode}, #{classifierId}, #{attName}, #{inheritFlag}, #{isRead}, #{isNull}, #{isCompare}, #{isShow},
+                #{isKey}, #{isClob}, #{isHighlight}, #{isSingleLine}, #{isLink}, #{attrType}, #{defaultValue},
+                #{datatypeId}, #{length}, #{maxLength}, #{minLength}, #{dataPrecision}, #{combId}, #{description},
+                #{regularPattern}, #{validateFailureTip}, #{attOrder})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="attId" useGeneratedKeys="true">
+        insert into t00_feature(att_code, classifier_id, att_name, inherit_flag, is_read, is_null, is_compare, is_show,
+        is_key, is_clob, is_highlight, is_single_line, is_link, attr_type, default_value, datatype_id, length,
+        max_length, min_length, data_precision, comb_id, description, regular_pattern, validate_failure_tip, att_order)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.attCode}, #{entity.classifierId}, #{entity.attName}, #{entity.inheritFlag}, #{entity.isRead},
+            #{entity.isNull}, #{entity.isCompare}, #{entity.isShow}, #{entity.isKey}, #{entity.isClob},
+            #{entity.isHighlight}, #{entity.isSingleLine}, #{entity.isLink}, #{entity.attrType}, #{entity.defaultValue},
+            #{entity.datatypeId}, #{entity.length}, #{entity.maxLength}, #{entity.minLength}, #{entity.dataPrecision},
+            #{entity.combId}, #{entity.description}, #{entity.regularPattern}, #{entity.validateFailureTip},
+            #{entity.attOrder})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="attId" useGeneratedKeys="true">
+        insert into t00_feature(att_code, classifier_id, att_name, inherit_flag, is_read, is_null, is_compare, is_show,
+        is_key, is_clob, is_highlight, is_single_line, is_link, attr_type, default_value, datatype_id, length,
+        max_length, min_length, data_precision, comb_id, description, regular_pattern, validate_failure_tip, att_order)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.attCode}, #{entity.classifierId}, #{entity.attName}, #{entity.inheritFlag}, #{entity.isRead},
+            #{entity.isNull}, #{entity.isCompare}, #{entity.isShow}, #{entity.isKey}, #{entity.isClob},
+            #{entity.isHighlight}, #{entity.isSingleLine}, #{entity.isLink}, #{entity.attrType}, #{entity.defaultValue},
+            #{entity.datatypeId}, #{entity.length}, #{entity.maxLength}, #{entity.minLength}, #{entity.dataPrecision},
+            #{entity.combId}, #{entity.description}, #{entity.regularPattern}, #{entity.validateFailureTip},
+            #{entity.attOrder})
+        </foreach>
+        on duplicate key update
+        att_code = values(att_code),
+        classifier_id = values(classifier_id),
+        att_name = values(att_name),
+        inherit_flag = values(inherit_flag),
+        is_read = values(is_read),
+        is_null = values(is_null),
+        is_compare = values(is_compare),
+        is_show = values(is_show),
+        is_key = values(is_key),
+        is_clob = values(is_clob),
+        is_highlight = values(is_highlight),
+        is_single_line = values(is_single_line),
+        is_link = values(is_link),
+        attr_type = values(attr_type),
+        default_value = values(default_value),
+        datatype_id = values(datatype_id),
+        length = values(length),
+        max_length = values(max_length),
+        min_length = values(min_length),
+        data_precision = values(data_precision),
+        comb_id = values(comb_id),
+        description = values(description),
+        regular_pattern = values(regular_pattern),
+        validate_failure_tip = values(validate_failure_tip),
+        att_order = values(att_order)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t00_feature
+        <set>
+            <if test="attCode != null and attCode != ''">
+                att_code = #{attCode},
+            </if>
+            <if test="classifierId != null and classifierId != ''">
+                classifier_id = #{classifierId},
+            </if>
+            <if test="attName != null and attName != ''">
+                att_name = #{attName},
+            </if>
+            <if test="inheritFlag != null and inheritFlag != ''">
+                inherit_flag = #{inheritFlag},
+            </if>
+            <if test="isRead != null and isRead != ''">
+                is_read = #{isRead},
+            </if>
+            <if test="isNull != null and isNull != ''">
+                is_null = #{isNull},
+            </if>
+            <if test="isCompare != null and isCompare != ''">
+                is_compare = #{isCompare},
+            </if>
+            <if test="isShow != null and isShow != ''">
+                is_show = #{isShow},
+            </if>
+            <if test="isKey != null and isKey != ''">
+                is_key = #{isKey},
+            </if>
+            <if test="isClob != null and isClob != ''">
+                is_clob = #{isClob},
+            </if>
+            <if test="isHighlight != null and isHighlight != ''">
+                is_highlight = #{isHighlight},
+            </if>
+            <if test="isSingleLine != null and isSingleLine != ''">
+                is_single_line = #{isSingleLine},
+            </if>
+            <if test="isLink != null and isLink != ''">
+                is_link = #{isLink},
+            </if>
+            <if test="attrType != null and attrType != ''">
+                attr_type = #{attrType},
+            </if>
+            <if test="defaultValue != null and defaultValue != ''">
+                default_value = #{defaultValue},
+            </if>
+            <if test="datatypeId != null and datatypeId != ''">
+                datatype_id = #{datatypeId},
+            </if>
+            <if test="length != null">
+                length = #{length},
+            </if>
+            <if test="maxLength != null">
+                max_length = #{maxLength},
+            </if>
+            <if test="minLength != null">
+                min_length = #{minLength},
+            </if>
+            <if test="dataPrecision != null and dataPrecision != ''">
+                data_precision = #{dataPrecision},
+            </if>
+            <if test="combId != null and combId != ''">
+                comb_id = #{combId},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="regularPattern != null and regularPattern != ''">
+                regular_pattern = #{regularPattern},
+            </if>
+            <if test="validateFailureTip != null and validateFailureTip != ''">
+                validate_failure_tip = #{validateFailureTip},
+            </if>
+            <if test="attOrder != null">
+                att_order = #{attOrder},
+            </if>
+        </set>
+        where att_id = #{attId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from t00_feature
+        where att_id = #{attId}
+    </delete>
+
+</mapper>
+

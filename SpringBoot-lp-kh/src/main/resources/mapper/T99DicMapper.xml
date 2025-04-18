@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lp.kh.springbootlpkh.mapper.T99DicMapper">
+
+    <resultMap type="com.lp.kh.springbootlpkh.entity.T99Dic" id="T99DicMap">
+        <result property="dictCode" column="dict_code" jdbcType="VARCHAR"/>
+        <result property="dictCodeDesc" column="dict_code_desc" jdbcType="VARCHAR"/>
+        <result property="codeItem" column="code_item" jdbcType="VARCHAR"/>
+        <result property="codeItemName" column="code_item_name" jdbcType="VARCHAR"/>
+        <result property="showOrder" column="show_order" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="getDimensionGroupCount" resultType="com.lp.kh.springbootlpkh.vo.DimensionGroupVO">
+        SELECT td.code_item_name as dimensionName, COUNT(*) as dimensionCount
+        FROM t99_dic td
+                 JOIN t02_rule_class trc ON td.code_item = trc.rule_dim AND td.dict_code = 'RULE_DIM'
+                 JOIN t02_rule tr ON trc.class_no = tr.rule_class_no
+                 JOIN t02_audit_result tar ON tr.id = tar.rule_id AND tar.result != '1'
+        WHERE
+            tar.create_time BETWEEN #{day} AND #{day} + INTERVAL 1 DAY - INTERVAL 1 SECOND
+        GROUP BY td.code_item_name
+    </select>
+
+
+</mapper>
+

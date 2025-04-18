@@ -54,7 +54,7 @@ public class AuthUtils {
                         .scopes(AuthScopeUtils.getScopes(AuthGithubScope.values()))
                         // 针对国外平台配置代理
                         .httpConfig(HttpConfig.builder()
-                                .timeout(15000)
+                                .timeout(30000)
                                 .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 10080)))
                                 .build())
                         .build(), AuthDefaultStateCache.INSTANCE);

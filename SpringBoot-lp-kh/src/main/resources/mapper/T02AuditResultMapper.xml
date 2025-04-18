@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lp.kh.springbootlpkh.mapper.T02AuditResultMapper">
+
+    <resultMap type="com.lp.kh.springbootlpkh.entity.T02AuditResult" id="T02AuditResultMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="taskId" column="task_id" jdbcType="INTEGER"/>
+        <result property="ruleId" column="rule_id" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="failureCause" column="failure_cause" jdbcType="VARCHAR"/>
+        <result property="result" column="result" jdbcType="VARCHAR"/>
+        <result property="execResult" column="exec_result" jdbcType="VARCHAR"/>
+        <result property="scanCount" column="scan_count" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <!--查询当天数据总数-->
+    <select id="getCheckCount" resultType="int">
+        SELECT COUNT(*)
+        FROM t02_audit_result
+        WHERE DATE(create_time) = #{day}
+    </select>
+    <select id="getResultCount" resultType="int">
+        SELECT COUNT(*)
+        FROM t02_audit_result
+        <where>
+            DATE(create_time) =  #{day}
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="resultValue != null and resultValue != ''">
+                and result = #{resultValue}
+            </if>
+        </where>
+    </select>
+    <select id="getResultDayGroupCount" resultType="com.lp.kh.springbootlpkh.vo.ResultDayGroupVO">
+        SELECT
+            DATE(create_time) AS resultDay,
+            COUNT(*) AS checkCount,
+            SUM(CASE WHEN tar.result = 2 THEN 1 ELSE 0 END) AS alertCount,
+            SUM(CASE WHEN tar.result = 3 THEN 1 ELSE 0 END) AS severeCount
+        FROM
+            t02_audit_result tar
+        WHERE
+            create_time BETWEEN DATE_SUB(#{day}, INTERVAL 1 MONTH) AND  #{day}
+        GROUP BY
+            resultDay
+    </select>
+    <select id="listExecCalendar" resultType="java.lang.String">
+        SELECT DISTINCT DATE(create_time) as execDay
+        FROM t02_audit_result
+        WHERE DATE_FORMAT(create_time, '%Y-%m') = #{month}
+        ORDER BY execDay ASC
+    </select>
+
+
+</mapper>
+

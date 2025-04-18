@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lp.kh.springbootlpkh.mapper.T02RuleMapper">
+
+    <resultMap type="com.lp.kh.springbootlpkh.entity.T02Rule" id="T02RuleMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="projectId" column="project_id" jdbcType="INTEGER"/>
+        <result property="ruleName" column="rule_name" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="weight" column="weight" jdbcType="VARCHAR"/>
+        <result property="ruleDim" column="rule_dim" jdbcType="VARCHAR"/>
+        <result property="ruleClassNo" column="rule_class_no" jdbcType="VARCHAR"/>
+        <result property="createType" column="create_type" jdbcType="VARCHAR"/>
+        <result property="datasourceId" column="datasource_id" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="schemaName" column="schema_name" jdbcType="VARCHAR"/>
+        <result property="templateId" column="template_id" jdbcType="VARCHAR"/>
+        <result property="execSql" column="exec_sql" jdbcType="VARCHAR"/>
+        <result property="checkSql" column="check_sql" jdbcType="VARCHAR"/>
+        <result property="countSql" column="count_sql" jdbcType="VARCHAR"/>
+        <result property="execMode" column="exec_mode" jdbcType="VARCHAR"/>
+        <result property="influenceSphere" column="influence_sphere" jdbcType="VARCHAR"/>
+        <result property="alarmType" column="alarm_type" jdbcType="VARCHAR"/>
+        <result property="alarmLevel" column="alarm_level" jdbcType="VARCHAR"/>
+        <result property="normalVal" column="normal_val" jdbcType="VARCHAR"/>
+        <result property="warnVal" column="warn_val" jdbcType="VARCHAR"/>
+        <result property="managerId" column="manager_id" jdbcType="VARCHAR"/>
+        <result property="creatorId" column="creator_id" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="lastModifierId" column="last_modifier_id" jdbcType="VARCHAR"/>
+        <result property="lastModifyTime" column="last_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="errorDataRetainDay" column="error_data_retain_day" jdbcType="INTEGER"/>
+        <result property="errorDataRetainCount" column="error_data_retain_count" jdbcType="INTEGER"/>
+        <result property="pushTodo" column="push_todo" jdbcType="VARCHAR"/>
+        <result property="preprocess" column="preprocess" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="getRuleCount" resultType="int">
+        select count(*)
+        from t02_rule
+    </select>
+
+
+</mapper>
+

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lp.kh.springbootlpkh.mapper.RJobentryMapper">
+
+    <resultMap type="com.lp.kh.springbootlpkh.entity.RJobentry" id="RJobentryMap">
+        <result property="idJobentry" column="id_jobentry" jdbcType="VARCHAR"/>
+        <result property="idJob" column="id_job" jdbcType="VARCHAR"/>
+        <result property="idJobentryType" column="id_jobentry_type" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="RJobentryMap">
+        select id_jobentry,
+               id_job,
+               id_jobentry_type,
+               name,
+               description
+        from r_jobentry
+        where id_jobentry = #{idJobentry}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="RJobentryMap">
+        select
+        id_jobentry, id_job, id_jobentry_type, name, description
+        from r_jobentry
+        <where>
+            <if test="idJobentry != null and idJobentry != ''">
+                and id_jobentry = #{idJobentry}
+            </if>
+            <if test="idJob != null and idJob != ''">
+                and id_job = #{idJob}
+            </if>
+            <if test="idJobentryType != null and idJobentryType != ''">
+                and id_jobentry_type = #{idJobentryType}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from r_jobentry
+        <where>
+            <if test="idJobentry != null and idJobentry != ''">
+                and id_jobentry = #{idJobentry}
+            </if>
+            <if test="idJob != null and idJob != ''">
+                and id_job = #{idJob}
+            </if>
+            <if test="idJobentryType != null and idJobentryType != ''">
+                and id_jobentry_type = #{idJobentryType}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="idJobentry" useGeneratedKeys="true">
+        insert into r_jobentry(id_job, id_jobentry_type, name, description)
+        values (#{idJob}, #{idJobentryType}, #{name}, #{description})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="idJobentry" useGeneratedKeys="true">
+        insert into r_jobentry(id_job, id_jobentry_type, name, description)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.idJob}, #{entity.idJobentryType}, #{entity.name}, #{entity.description})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="idJobentry" useGeneratedKeys="true">
+        insert into r_jobentry(id_job, id_jobentry_type, name, description)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.idJob}, #{entity.idJobentryType}, #{entity.name}, #{entity.description})
+        </foreach>
+        on duplicate key update
+        id_job = values(id_job),
+        id_jobentry_type = values(id_jobentry_type),
+        name = values(name),
+        description = values(description)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update r_jobentry
+        <set>
+            <if test="idJob != null and idJob != ''">
+                id_job = #{idJob},
+            </if>
+            <if test="idJobentryType != null and idJobentryType != ''">
+                id_jobentry_type = #{idJobentryType},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+        </set>
+        where id_jobentry = #{idJobentry}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from r_jobentry
+        where id_jobentry = #{idJobentry}
+    </delete>
+
+</mapper>
+

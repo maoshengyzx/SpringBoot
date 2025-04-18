@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springbootmschema.mapper.InstanceMapper">
+
+    <resultMap type="com.example.springbootmschema.entity.Instance" id="T01InstanceMap">
+        <result property="instanceId" column="instance_id" jdbcType="INTEGER"/>
+        <result property="instanceCode" column="instance_code" jdbcType="VARCHAR"/>
+        <result property="instanceName" column="instance_name" jdbcType="VARCHAR"/>
+        <result property="classifierId" column="classifier_id" jdbcType="VARCHAR"/>
+        <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+        <result property="namespace" column="namespace" jdbcType="VARCHAR"/>
+        <result property="version" column="version" jdbcType="INTEGER"/>
+        <result property="startTime" column="start_time" jdbcType="INTEGER"/>
+        <result property="relType" column="rel_type" jdbcType="VARCHAR"/>
+        <result property="isValid" column="is_valid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="instanceColumns">
+        instance_id, instance_code, instance_name, classifier_id, parent_id, namespace, version, start_time, rel_type,is_valid
+    </sql>
+
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="T01InstanceMap">
+        select <include refid="instanceColumns"/>
+        from t01_instance
+        where instance_id = #{instanceId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="T01InstanceMap">
+        select
+        instance_id, instance_code, instance_name, classifier_id, parent_id, namespace, version, start_time, rel_type,
+        is_valid
+        from t01_instance
+        <where>
+            <if test="instanceId != null">
+                and instance_id = #{instanceId}
+            </if>
+            <if test="instanceCode != null and instanceCode != ''">
+                and instance_code = #{instanceCode}
+            </if>
+            <if test="instanceName != null and instanceName != ''">
+                and instance_name = #{instanceName}
+            </if>
+            <if test="classifierId != null and classifierId != ''">
+                and classifier_id = #{classifierId}
+            </if>
+            <if test="parentId != null">
+                and parent_id = #{parentId}
+            </if>
+            <if test="namespace != null and namespace != ''">
+                and namespace = #{namespace}
+            </if>
+            <if test="version != null">
+                and version = #{version}
+            </if>
+            <if test="startTime != null">
+                and start_time = #{startTime}
+            </if>
+            <if test="relType != null and relType != ''">
+                and rel_type = #{relType}
+            </if>
+            <if test="isValid != null and isValid != ''">
+                and is_valid = #{isValid}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from t01_instance
+        <where>
+            <if test="instanceId != null">
+                and instance_id = #{instanceId}
+            </if>
+            <if test="instanceCode != null and instanceCode != ''">
+                and instance_code = #{instanceCode}
+            </if>
+            <if test="instanceName != null and instanceName != ''">
+                and instance_name = #{instanceName}
+            </if>
+            <if test="classifierId != null and classifierId != ''">
+                and classifier_id = #{classifierId}
+            </if>
+            <if test="parentId != null">
+                and parent_id = #{parentId}
+            </if>
+            <if test="namespace != null and namespace != ''">
+                and namespace = #{namespace}
+            </if>
+            <if test="version != null">
+                and version = #{version}
+            </if>
+            <if test="startTime != null">
+                and start_time = #{startTime}
+            </if>
+            <if test="relType != null and relType != ''">
+                and rel_type = #{relType}
+            </if>
+            <if test="isValid != null and isValid != ''">
+                and is_valid = #{isValid}
+            </if>
+            <if test="string1 != null and string1 != ''">
+                and string_1 = #{string1}
+            </if>
+            <if test="string2 != null and string2 != ''">
+                and string_2 = #{string2}
+            </if>
+            <if test="string3 != null and string3 != ''">
+                and string_3 = #{string3}
+            </if>
+            <if test="string4 != null and string4 != ''">
+                and string_4 = #{string4}
+            </if>
+            <if test="string5 != null and string5 != ''">
+                and string_5 = #{string5}
+            </if>
+            <if test="string6 != null and string6 != ''">
+                and string_6 = #{string6}
+            </if>
+            <if test="string7 != null and string7 != ''">
+                and string_7 = #{string7}
+            </if>
+            <if test="string8 != null and string8 != ''">
+                and string_8 = #{string8}
+            </if>
+            <if test="string9 != null and string9 != ''">
+                and string_9 = #{string9}
+            </if>
+            <if test="string10 != null and string10 != ''">
+                and string_10 = #{string10}
+            </if>
+            <if test="string11 != null and string11 != ''">
+                and string_11 = #{string11}
+            </if>
+            <if test="string12 != null and string12 != ''">
+                and string_12 = #{string12}
+            </if>
+            <if test="string13 != null and string13 != ''">
+                and string_13 = #{string13}
+            </if>
+            <if test="string14 != null and string14 != ''">
+                and string_14 = #{string14}
+            </if>
+            <if test="string15 != null and string15 != ''">
+                and string_15 = #{string15}
+            </if>
+            <if test="string16 != null and string16 != ''">
+                and string_16 = #{string16}
+            </if>
+            <if test="string17 != null and string17 != ''">
+                and string_17 = #{string17}
+            </if>
+            <if test="string18 != null and string18 != ''">
+                and string_18 = #{string18}
+            </if>
+            <if test="string19 != null and string19 != ''">
+                and string_19 = #{string19}
+            </if>
+            <if test="string20 != null and string20 != ''">
+                and string_20 = #{string20}
+            </if>
+            <if test="string21 != null and string21 != ''">
+                and string_21 = #{string21}
+            </if>
+            <if test="string22 != null and string22 != ''">
+                and string_22 = #{string22}
+            </if>
+            <if test="string23 != null and string23 != ''">
+                and string_23 = #{string23}
+            </if>
+            <if test="string24 != null and string24 != ''">
+                and string_24 = #{string24}
+            </if>
+            <if test="string25 != null and string25 != ''">
+                and string_25 = #{string25}
+            </if>
+            <if test="string26 != null and string26 != ''">
+                and string_26 = #{string26}
+            </if>
+            <if test="string27 != null and string27 != ''">
+                and string_27 = #{string27}
+            </if>
+            <if test="string28 != null and string28 != ''">
+                and string_28 = #{string28}
+            </if>
+            <if test="string29 != null and string29 != ''">
+                and string_29 = #{string29}
+            </if>
+            <if test="string30 != null and string30 != ''">
+                and string_30 = #{string30}
+            </if>
+            <if test="string31 != null and string31 != ''">
+                and string_31 = #{string31}
+            </if>
+            <if test="string32 != null and string32 != ''">
+                and string_32 = #{string32}
+            </if>
+            <if test="string33 != null and string33 != ''">
+                and string_33 = #{string33}
+            </if>
+            <if test="string34 != null and string34 != ''">
+                and string_34 = #{string34}
+            </if>
+            <if test="string35 != null and string35 != ''">
+                and string_35 = #{string35}
+            </if>
+            <if test="string36 != null and string36 != ''">
+                and string_36 = #{string36}
+            </if>
+            <if test="string37 != null and string37 != ''">
+                and string_37 = #{string37}
+            </if>
+            <if test="string38 != null and string38 != ''">
+                and string_38 = #{string38}
+            </if>
+            <if test="string39 != null and string39 != ''">
+                and string_39 = #{string39}
+            </if>
+            <if test="string40 != null and string40 != ''">
+                and string_40 = #{string40}
+            </if>
+        </where>
+    </select>
+    <select id="selectInstanceByDatasourceIds" resultType="com.example.springbootmschema.entity.Instance">
+        select
+        <include refid="instanceColumns"/>
+        from t01_instance
+        where instance_code in
+        <foreach collection="datasourceIds" item="datasourceId" separator="," open="(" close=")">
+            #{datasourceId}
+        </foreach>
+    </select>
+    <select id="selectInstanceByInstanceIdAndClassiferId"
+            resultType="com.example.springbootmschema.entity.Instance">
+        select
+        <include refid="instanceColumns"/>
+        from t01_instance
+        where parent_id = #{instanceId}
+        and classifier_id = #{classifierId}
+        and  instance_id = #{schemaInstanceId}
+    </select>
+    <select id="selectStringValueByInstanceId" resultType="java.lang.String">
+        select ${attStore}
+        from t01_instance
+        where instance_id = #{instanceId}
+    </select>
+    <select id="selectInstanceByDataSourceIdAndClassiferId"
+            resultType="com.example.springbootmschema.entity.Instance">
+        select
+        <include refid="instanceColumns"/>
+        from t01_instance
+        where instance_code = #{instanceCode}
+        and classifier_id = #{classifierId}
+    </select>
+    <select id="selectByParentInstanceIds" resultType="com.example.springbootmschema.entity.Instance">
+        select <include refid="instanceColumns"/>
+        from t01_instance
+        where classifier_id = #{classifierId} and parent_id in
+        <foreach collection="parentInstanceIds" item="parentInstanceId" separator="," open="(" close=")">#{parentInstanceId}</foreach>
+    </select>
+    <select id="selectCodeValueByInstanceId" resultType="com.example.springbootmschema.entity.CodeItem">
+        select code_value, code_num
+        from t01_code_item
+        where instance_id = #{instanceId}
+        limit 3
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="instanceId" useGeneratedKeys="true">
+        insert into t01_instance(instance_code, instance_name, classifier_id, parent_id, namespace, version, start_time,
+                                 rel_type, is_valid, string_1, string_2, string_3, string_4, string_5, string_6,
+                                 string_7, string_8, string_9, string_10, string_11, string_12, string_13, string_14,
+                                 string_15, string_16, string_17, string_18, string_19, string_20, string_21, string_22,
+                                 string_23, string_24, string_25, string_26, string_27, string_28, string_29, string_30,
+                                 string_31, string_32, string_33, string_34, string_35, string_36, string_37, string_38,
+                                 string_39, string_40)
+        values (#{instanceCode}, #{instanceName}, #{classifierId}, #{parentId}, #{namespace}, #{version}, #{startTime},
+                #{relType}, #{isValid}, #{string1}, #{string2}, #{string3}, #{string4}, #{string5}, #{string6},
+                #{string7}, #{string8}, #{string9}, #{string10}, #{string11}, #{string12}, #{string13}, #{string14},
+                #{string15}, #{string16}, #{string17}, #{string18}, #{string19}, #{string20}, #{string21}, #{string22},
+                #{string23}, #{string24}, #{string25}, #{string26}, #{string27}, #{string28}, #{string29}, #{string30},
+                #{string31}, #{string32}, #{string33}, #{string34}, #{string35}, #{string36}, #{string37}, #{string38},
+                #{string39}, #{string40})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="instanceId" useGeneratedKeys="true">
+        insert into t01_instance(instance_code, instance_name, classifier_id, parent_id, namespace, version, start_time,
+        rel_type, is_valid, string_1, string_2, string_3, string_4, string_5, string_6, string_7, string_8, string_9,
+        string_10, string_11, string_12, string_13, string_14, string_15, string_16, string_17, string_18, string_19,
+        string_20, string_21, string_22, string_23, string_24, string_25, string_26, string_27, string_28, string_29,
+        string_30, string_31, string_32, string_33, string_34, string_35, string_36, string_37, string_38, string_39,
+        string_40)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.instanceCode}, #{entity.instanceName}, #{entity.classifierId}, #{entity.parentId},
+            #{entity.namespace}, #{entity.version}, #{entity.startTime}, #{entity.relType}, #{entity.isValid},
+            #{entity.string1}, #{entity.string2}, #{entity.string3}, #{entity.string4}, #{entity.string5},
+            #{entity.string6}, #{entity.string7}, #{entity.string8}, #{entity.string9}, #{entity.string10},
+            #{entity.string11}, #{entity.string12}, #{entity.string13}, #{entity.string14}, #{entity.string15},
+            #{entity.string16}, #{entity.string17}, #{entity.string18}, #{entity.string19}, #{entity.string20},
+            #{entity.string21}, #{entity.string22}, #{entity.string23}, #{entity.string24}, #{entity.string25},
+            #{entity.string26}, #{entity.string27}, #{entity.string28}, #{entity.string29}, #{entity.string30},
+            #{entity.string31}, #{entity.string32}, #{entity.string33}, #{entity.string34}, #{entity.string35},
+            #{entity.string36}, #{entity.string37}, #{entity.string38}, #{entity.string39}, #{entity.string40})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="instanceId" useGeneratedKeys="true">
+        insert into t01_instance(instance_code, instance_name, classifier_id, parent_id, namespace, version, start_time,
+        rel_type, is_valid, string_1, string_2, string_3, string_4, string_5, string_6, string_7, string_8, string_9,
+        string_10, string_11, string_12, string_13, string_14, string_15, string_16, string_17, string_18, string_19,
+        string_20, string_21, string_22, string_23, string_24, string_25, string_26, string_27, string_28, string_29,
+        string_30, string_31, string_32, string_33, string_34, string_35, string_36, string_37, string_38, string_39,
+        string_40)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.instanceCode}, #{entity.instanceName}, #{entity.classifierId}, #{entity.parentId},
+            #{entity.namespace}, #{entity.version}, #{entity.startTime}, #{entity.relType}, #{entity.isValid},
+            #{entity.string1}, #{entity.string2}, #{entity.string3}, #{entity.string4}, #{entity.string5},
+            #{entity.string6}, #{entity.string7}, #{entity.string8}, #{entity.string9}, #{entity.string10},
+            #{entity.string11}, #{entity.string12}, #{entity.string13}, #{entity.string14}, #{entity.string15},
+            #{entity.string16}, #{entity.string17}, #{entity.string18}, #{entity.string19}, #{entity.string20},
+            #{entity.string21}, #{entity.string22}, #{entity.string23}, #{entity.string24}, #{entity.string25},
+            #{entity.string26}, #{entity.string27}, #{entity.string28}, #{entity.string29}, #{entity.string30},
+            #{entity.string31}, #{entity.string32}, #{entity.string33}, #{entity.string34}, #{entity.string35},
+            #{entity.string36}, #{entity.string37}, #{entity.string38}, #{entity.string39}, #{entity.string40})
+        </foreach>
+        on duplicate key update
+        instance_code = values(instance_code),
+        instance_name = values(instance_name),
+        classifier_id = values(classifier_id),
+        parent_id = values(parent_id),
+        namespace = values(namespace),
+        version = values(version),
+        start_time = values(start_time),
+        rel_type = values(rel_type),
+        is_valid = values(is_valid),
+        string_1 = values(string_1),
+        string_2 = values(string_2),
+        string_3 = values(string_3),
+        string_4 = values(string_4),
+        string_5 = values(string_5),
+        string_6 = values(string_6),
+        string_7 = values(string_7),
+        string_8 = values(string_8),
+        string_9 = values(string_9),
+        string_10 = values(string_10),
+        string_11 = values(string_11),
+        string_12 = values(string_12),
+        string_13 = values(string_13),
+        string_14 = values(string_14),
+        string_15 = values(string_15),
+        string_16 = values(string_16),
+        string_17 = values(string_17),
+        string_18 = values(string_18),
+        string_19 = values(string_19),
+        string_20 = values(string_20),
+        string_21 = values(string_21),
+        string_22 = values(string_22),
+        string_23 = values(string_23),
+        string_24 = values(string_24),
+        string_25 = values(string_25),
+        string_26 = values(string_26),
+        string_27 = values(string_27),
+        string_28 = values(string_28),
+        string_29 = values(string_29),
+        string_30 = values(string_30),
+        string_31 = values(string_31),
+        string_32 = values(string_32),
+        string_33 = values(string_33),
+        string_34 = values(string_34),
+        string_35 = values(string_35),
+        string_36 = values(string_36),
+        string_37 = values(string_37),
+        string_38 = values(string_38),
+        string_39 = values(string_39),
+        string_40 = values(string_40)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t01_instance
+        <set>
+            <if test="instanceCode != null and instanceCode != ''">
+                instance_code = #{instanceCode},
+            </if>
+            <if test="instanceName != null and instanceName != ''">
+                instance_name = #{instanceName},
+            </if>
+            <if test="classifierId != null and classifierId != ''">
+                classifier_id = #{classifierId},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId},
+            </if>
+            <if test="namespace != null and namespace != ''">
+                namespace = #{namespace},
+            </if>
+            <if test="version != null">
+                version = #{version},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime},
+            </if>
+            <if test="relType != null and relType != ''">
+                rel_type = #{relType},
+            </if>
+            <if test="isValid != null and isValid != ''">
+                is_valid = #{isValid},
+            </if>
+            <if test="string1 != null and string1 != ''">
+                string_1 = #{string1},
+            </if>
+            <if test="string2 != null and string2 != ''">
+                string_2 = #{string2},
+            </if>
+            <if test="string3 != null and string3 != ''">
+                string_3 = #{string3},
+            </if>
+            <if test="string4 != null and string4 != ''">
+                string_4 = #{string4},
+            </if>
+            <if test="string5 != null and string5 != ''">
+                string_5 = #{string5},
+            </if>
+            <if test="string6 != null and string6 != ''">
+                string_6 = #{string6},
+            </if>
+            <if test="string7 != null and string7 != ''">
+                string_7 = #{string7},
+            </if>
+            <if test="string8 != null and string8 != ''">
+                string_8 = #{string8},
+            </if>
+            <if test="string9 != null and string9 != ''">
+                string_9 = #{string9},
+            </if>
+            <if test="string10 != null and string10 != ''">
+                string_10 = #{string10},
+            </if>
+            <if test="string11 != null and string11 != ''">
+                string_11 = #{string11},
+            </if>
+            <if test="string12 != null and string12 != ''">
+                string_12 = #{string12},
+            </if>
+            <if test="string13 != null and string13 != ''">
+                string_13 = #{string13},
+            </if>
+            <if test="string14 != null and string14 != ''">
+                string_14 = #{string14},
+            </if>
+            <if test="string15 != null and string15 != ''">
+                string_15 = #{string15},
+            </if>
+            <if test="string16 != null and string16 != ''">
+                string_16 = #{string16},
+            </if>
+            <if test="string17 != null and string17 != ''">
+                string_17 = #{string17},
+            </if>
+            <if test="string18 != null and string18 != ''">
+                string_18 = #{string18},
+            </if>
+            <if test="string19 != null and string19 != ''">
+                string_19 = #{string19},
+            </if>
+            <if test="string20 != null and string20 != ''">
+                string_20 = #{string20},
+            </if>
+            <if test="string21 != null and string21 != ''">
+                string_21 = #{string21},
+            </if>
+            <if test="string22 != null and string22 != ''">
+                string_22 = #{string22},
+            </if>
+            <if test="string23 != null and string23 != ''">
+                string_23 = #{string23},
+            </if>
+            <if test="string24 != null and string24 != ''">
+                string_24 = #{string24},
+            </if>
+            <if test="string25 != null and string25 != ''">
+                string_25 = #{string25},
+            </if>
+            <if test="string26 != null and string26 != ''">
+                string_26 = #{string26},
+            </if>
+            <if test="string27 != null and string27 != ''">
+                string_27 = #{string27},
+            </if>
+            <if test="string28 != null and string28 != ''">
+                string_28 = #{string28},
+            </if>
+            <if test="string29 != null and string29 != ''">
+                string_29 = #{string29},
+            </if>
+            <if test="string30 != null and string30 != ''">
+                string_30 = #{string30},
+            </if>
+            <if test="string31 != null and string31 != ''">
+                string_31 = #{string31},
+            </if>
+            <if test="string32 != null and string32 != ''">
+                string_32 = #{string32},
+            </if>
+            <if test="string33 != null and string33 != ''">
+                string_33 = #{string33},
+            </if>
+            <if test="string34 != null and string34 != ''">
+                string_34 = #{string34},
+            </if>
+            <if test="string35 != null and string35 != ''">
+                string_35 = #{string35},
+            </if>
+            <if test="string36 != null and string36 != ''">
+                string_36 = #{string36},
+            </if>
+            <if test="string37 != null and string37 != ''">
+                string_37 = #{string37},
+            </if>
+            <if test="string38 != null and string38 != ''">
+                string_38 = #{string38},
+            </if>
+            <if test="string39 != null and string39 != ''">
+                string_39 = #{string39},
+            </if>
+            <if test="string40 != null and string40 != ''">
+                string_40 = #{string40},
+            </if>
+        </set>
+        where instance_id = #{instanceId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from t01_instance
+        where instance_id = #{instanceId}
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springbootmschema.mapper.DatasourceMapper">
+
+    <resultMap type="com.example.springbootmschema.entity.Datasource" id="T99DatasourceMap">
+        <result property="datasourceId" column="datasource_id" jdbcType="VARCHAR"/>
+        <result property="datasourceName" column="datasource_name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="modeId" column="mode_id" jdbcType="VARCHAR"/>
+        <result property="toolkitVersion" column="toolkit_version" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="creatorId" column="creator_id" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="lastModifierId" column="last_modifier_id" jdbcType="VARCHAR"/>
+        <result property="lastModifyTime" column="last_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="authMode" column="auth_mode" jdbcType="VARCHAR"/>
+        <result property="agentNodes" column="agent_nodes" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="T99DatasourceMap">
+        select datasource_id,
+               datasource_name,
+               description,
+               mode_id,
+               toolkit_version,
+               type,
+               creator_id,
+               create_time,
+               last_modifier_id,
+               last_modify_time,
+               auth_mode,
+               agent_nodes
+        from t99_datasource
+        where datasource_id = #{datasourceId}
+    </select>
+
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from t99_datasource
+        <where>
+            <if test="datasourceId != null and datasourceId != ''">
+                and datasource_id = #{datasourceId}
+            </if>
+            <if test="datasourceName != null and datasourceName != ''">
+                and datasource_name = #{datasourceName}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="modeId != null and modeId != ''">
+                and mode_id = #{modeId}
+            </if>
+            <if test="toolkitVersion != null and toolkitVersion != ''">
+                and toolkit_version = #{toolkitVersion}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="creatorId != null and creatorId != ''">
+                and creator_id = #{creatorId}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="lastModifierId != null and lastModifierId != ''">
+                and last_modifier_id = #{lastModifierId}
+            </if>
+            <if test="lastModifyTime != null">
+                and last_modify_time = #{lastModifyTime}
+            </if>
+            <if test="authMode != null and authMode != ''">
+                and auth_mode = #{authMode}
+            </if>
+            <if test="agentNodes != null and agentNodes != ''">
+                and agent_nodes = #{agentNodes}
+            </if>
+        </where>
+    </select>
+    <select id="listAll" resultType="com.example.springbootmschema.entity.Datasource">
+        select *
+        from t99_datasource
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="datasourceId" useGeneratedKeys="true">
+        insert into t99_datasource(datasource_name, description, mode_id, toolkit_version, type, creator_id,
+                                   create_time, last_modifier_id, last_modify_time, auth_mode, agent_nodes)
+        values (#{datasourceName}, #{description}, #{modeId}, #{toolkitVersion}, #{type}, #{creatorId}, #{createTime},
+                #{lastModifierId}, #{lastModifyTime}, #{authMode}, #{agentNodes})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="datasourceId" useGeneratedKeys="true">
+        insert into t99_datasource(datasource_name, description, mode_id, toolkit_version, type, creator_id,
+        create_time, last_modifier_id, last_modify_time, auth_mode, agent_nodes)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.datasourceName}, #{entity.description}, #{entity.modeId}, #{entity.toolkitVersion},
+            #{entity.type}, #{entity.creatorId}, #{entity.createTime}, #{entity.lastModifierId},
+            #{entity.lastModifyTime}, #{entity.authMode}, #{entity.agentNodes})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="datasourceId" useGeneratedKeys="true">
+        insert into t99_datasource(datasource_name, description, mode_id, toolkit_version, type, creator_id,
+        create_time, last_modifier_id, last_modify_time, auth_mode, agent_nodes)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.datasourceName}, #{entity.description}, #{entity.modeId}, #{entity.toolkitVersion},
+            #{entity.type}, #{entity.creatorId}, #{entity.createTime}, #{entity.lastModifierId},
+            #{entity.lastModifyTime}, #{entity.authMode}, #{entity.agentNodes})
+        </foreach>
+        on duplicate key update
+        datasource_name = values(datasource_name),
+        description = values(description),
+        mode_id = values(mode_id),
+        toolkit_version = values(toolkit_version),
+        type = values(type),
+        creator_id = values(creator_id),
+        create_time = values(create_time),
+        last_modifier_id = values(last_modifier_id),
+        last_modify_time = values(last_modify_time),
+        auth_mode = values(auth_mode),
+        agent_nodes = values(agent_nodes)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t99_datasource
+        <set>
+            <if test="datasourceName != null and datasourceName != ''">
+                datasource_name = #{datasourceName},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="modeId != null and modeId != ''">
+                mode_id = #{modeId},
+            </if>
+            <if test="toolkitVersion != null and toolkitVersion != ''">
+                toolkit_version = #{toolkitVersion},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="creatorId != null and creatorId != ''">
+                creator_id = #{creatorId},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="lastModifierId != null and lastModifierId != ''">
+                last_modifier_id = #{lastModifierId},
+            </if>
+            <if test="lastModifyTime != null">
+                last_modify_time = #{lastModifyTime},
+            </if>
+            <if test="authMode != null and authMode != ''">
+                auth_mode = #{authMode},
+            </if>
+            <if test="agentNodes != null and agentNodes != ''">
+                agent_nodes = #{agentNodes},
+            </if>
+        </set>
+        where datasource_id = #{datasourceId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from t99_datasource
+        where datasource_id = #{datasourceId}
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: SpringBoot-M-Schema
+  datasource:
+    url: jdbc:mysql://192.168.10.88/edgs_poc?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: Compass@2023
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.demo.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+
+

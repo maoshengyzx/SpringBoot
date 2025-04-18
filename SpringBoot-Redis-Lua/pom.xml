@@ -11,8 +11,8 @@
     <groupId>com.example</groupId>
     <artifactId>SpringBoot-Redis-Lua</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Lua-Test</name>
-    <description>Lua-Test</description>
+    <name>SpringBoot-Redis-Lua</name>
+    <description>SpringBoot-Redis-Lua</description>
 
     <properties>
         <java.version>8</java.version>

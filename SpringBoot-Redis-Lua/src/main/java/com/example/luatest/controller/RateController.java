@@ -19,7 +19,7 @@ public class RateController {
 
     @RateLimiter(count = 100, time = 60, limitType = LimitType.IP)
     @GetMapping("/someMethod")
-    @Cacheable("someMethod")
+    @Cacheable("someMethod")    // 对接口结果进行缓存，此处缓存的配置跟RedisCacheManager有关
     public void someMethod(HttpServletRequest request) {
         // 方法的具体逻辑
     }

@@ -1,0 +1,27 @@
+
+
+spring:
+  application:
+    name: SpringBoot-Kafka
+  main:
+    allow-circular-references: true
+  kafka:
+    bootstrap-servers: 192.168.200.130:9092
+    listener:
+      concurrency: 5  # 并发线程数
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: latest # earliest 从最早的开始消费  latest 从最新的开始消费
+      group-id: admin-group
+      enable-auto-commit: false      # 自动提交
+      auto-commit-interval: 1000    # 自动提交间隔时间
+      max-poll-records: 50        # 每次拉取的最大消息数量
+      max-poll-interval-ms: 300000  # 每次拉取的最大时间间隔
+      session-timeout-ms: 180000    # 会话超时时间
+      heartbeat-interval-ms: 3000   # 心跳间隔时间
+
+
