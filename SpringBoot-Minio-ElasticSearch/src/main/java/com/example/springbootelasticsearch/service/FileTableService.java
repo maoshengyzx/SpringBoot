@@ -1,5 +1,6 @@
 package com.example.springbootelasticsearch.service;
 
+import com.example.springbootelasticsearch.common.Page;
 import com.example.springbootelasticsearch.entity.FileTable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,4 +31,7 @@ public interface FileTableService {
      * @return
      */
     List<FileTable> getInfoHighlight(Long id);
+
+
+    Page<FileTable> listInfo(Page<FileTable> page);
 }

@@ -1,5 +1,6 @@
 package com.example.springbootelasticsearch.Controller;
 
+import com.example.springbootelasticsearch.common.Page;
 import com.example.springbootelasticsearch.entity.FileTable;
 import com.example.springbootelasticsearch.service.FileTableService;
 import com.example.springbootelasticsearch.utils.MinioUtils;
@@ -32,8 +33,16 @@ public class FileController {
         this.fileTableService = fileTableService;
     }
 
+
+    @GetMapping("/listInfo")
+    public Page<FileTable> listInfo(@RequestParam Integer pageNum, @RequestParam Integer pageSize) {
+        Page<FileTable> page = Page.of(pageNum, pageSize);
+        return fileTableService.listInfo(page);
+    }
+
     /**
      * 文件上传
+     *
      * @param file
      * @param bucketName
      * @return

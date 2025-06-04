@@ -1,5 +1,6 @@
 package com.example.springbootelasticsearch.mapper;
 
+import com.example.springbootelasticsearch.common.Page;
 import com.example.springbootelasticsearch.entity.FileTable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
@@ -80,5 +81,6 @@ public interface FileTableMapper {
      */
     int deleteById(Long id);
 
+    List<FileTable> listInfo(Page<FileTable> page);
 }
 

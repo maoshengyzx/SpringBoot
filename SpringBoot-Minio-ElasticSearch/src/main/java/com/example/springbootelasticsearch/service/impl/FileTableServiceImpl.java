@@ -1,5 +1,6 @@
 package com.example.springbootelasticsearch.service.impl;
 
+import com.example.springbootelasticsearch.common.Page;
 import com.example.springbootelasticsearch.entity.FileTable;
 import com.example.springbootelasticsearch.esrepositry.FileTableRepository;
 import com.example.springbootelasticsearch.mapper.FileTableMapper;
@@ -20,7 +21,6 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.document.Document;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,8 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * (FileTable)表服务实现类
@@ -157,5 +155,11 @@ public class FileTableServiceImpl implements FileTableService {
         });
 
         return fileTables;
+    }
+
+    @Override
+    public Page<FileTable> listInfo(Page<FileTable> page) {
+        fileTableMapper.listInfo(page);
+        return page;
     }
 }

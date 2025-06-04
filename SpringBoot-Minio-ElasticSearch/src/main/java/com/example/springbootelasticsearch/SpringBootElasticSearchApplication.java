@@ -1,6 +1,6 @@
 package com.example.springbootelasticsearch;
 
-import org.mybatis.spring.annotation.MapperScan;
+import com.example.springbootelasticsearch.config.MinioConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Administrator
  */
 @SpringBootApplication
-@MapperScan("com.example.springbootelasticsearch.mapper")
 public class SpringBootElasticSearchApplication {
 
     public static void main(String[] args) {

@@ -7,11 +7,11 @@
         <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
         <result property="fileType" column="file_type" jdbcType="VARCHAR"/>
         <result property="fileSize" column="file_size" jdbcType="INTEGER"/>
-        <result property="filePath" column="file_path" />
+        <result property="filePath" column="file_path"/>
         <result property="isDeleted" column="is_deleted" jdbcType="INTEGER"/>
     </resultMap>
 
-    <!--查询单个-->
+
     <select id="queryById" resultMap="FileTableMap">
         select id,
                file_name,
@@ -22,6 +22,7 @@
         from file_table
         where id = #{id}
     </select>
+
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="FileTableMap">
@@ -75,6 +76,13 @@
                 and is_deleted = #{isDeleted}
             </if>
         </where>
+    </select>
+    <select id="listInfo" resultType="com.example.springbootelasticsearch.entity.FileTable">
+        select  id,
+                file_name,
+                file_type,
+                file_size
+        from file_table
     </select>
 
     <!--新增所有列-->
