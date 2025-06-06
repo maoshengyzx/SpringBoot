@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springbootasyncexcel.mapper.ProcessMapper">
+
+    <resultMap type="com.example.springbootasyncexcel.entity.Process" id="ProcessMap">
+        <result property="processId" column="process_id" jdbcType="INTEGER"/>
+        <result property="processName" column="process_name" jdbcType="VARCHAR"/>
+        <result property="processType" column="process_type" jdbcType="VARCHAR"/>
+        <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+        <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="params" column="params" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ProcessMap">
+        select process_id,
+               process_name,
+               start_time,
+               end_time,
+               status,
+               description,
+               url,
+               params,
+               process_type
+        from process
+        where process_id = #{processId}
+    </select>
+
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from process
+        <where>
+            <if test="processId != null">
+                and process_id = #{processId}
+            </if>
+            <if test="processName != null and processName != ''">
+                and process_name = #{processName}
+            </if>
+            <if test="startTime != null">
+                and start_time = #{startTime}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="attId != null and attId != ''">
+                and att_id = #{attId}
+            </if>
+        </where>
+    </select>
+    <select id="listByStatus" resultType="com.example.springbootasyncexcel.entity.Process">
+        select process_id,
+               process_name,
+               start_time,
+               end_time,
+               status,
+               description,
+               url,
+               params
+        from process
+        where status = #{status}
+        order by start_time
+        limit 1
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="processId" useGeneratedKeys="true">
+        insert into process(process_id, process_name, start_time, end_time, status, description, url, params,
+                            process_type)
+        values (#{processId}, #{processName}, #{startTime}, #{endTime}, #{status}, #{description}, #{url}, #{params},
+                #{processType})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="processId" useGeneratedKeys="true">
+        insert into process(process_name, start_time, end_time, status, description, url)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.processName}, #{entity.startTime}, #{entity.endTime}, #{entity.status}, #{entity.description},
+            #{entity.attId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="processId" useGeneratedKeys="true">
+        insert into process(process_name, start_time, end_time, status, description, att_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.processName}, #{entity.startTime}, #{entity.endTime}, #{entity.status}, #{entity.description},
+            #{entity.attId})
+        </foreach>
+        on duplicate key update
+        process_name = values(process_name),
+        start_time = values(start_time),
+        end_time = values(end_time),
+        status = values(status),
+        description = values(description),
+        att_id = values(att_id)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update process
+        <set>
+            <if test="processName != null and processName != ''">
+                process_name = #{processName},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="url != null and url != ''">
+                url = #{url},
+            </if>
+        </set>
+        where process_id = #{processId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from process
+        where process_id = #{processId}
+    </delete>
+
+</mapper>
+
