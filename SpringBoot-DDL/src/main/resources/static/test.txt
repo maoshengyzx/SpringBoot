@@ -1,0 +1,57 @@
+drop table if exists "${table.tableCode}";
+
+create table "${table.tableCode}"(
+    <%
+    for(field in fieldList){
+    var code = field.code;
+    var comment = field.comment;
+    var type = field.type;
+    var len = field.len;
+    var scale = field.scale;
+    var notNull = field.notNull;
+    var autoIncrement = field.autoIncrement;
+    var defaultValue = field.defaultValue;
+
+    var last =  fieldLP.last;
+
+    if (len != null) {
+        if (len > 0) {
+            var temp = "(" + len;
+            if (scale != null) {
+                if (scale > 0) {
+                    temp = temp + "," + scale;
+                }
+            }
+            temp = temp + ")";
+            type = type + temp;
+        }
+    }
+
+    %>
+    "${code}" ${type}${autoIncrement ? " generated always as identity" : ""}${notNull ? " not null" : ""}${defaultValue != null ? " default '" + defaultValue + "'" : "" }
+    ${!last ? "," : ""}
+    <%
+    }
+    %>
+    <%
+    if (primaryKey != null){
+    %>
+    ,primary key (${primaryKey})
+    <%
+    }
+    %>
+);
+
+comment on table "${table.tableCode}" is '${table.tableComment}';
+
+<%
+for(field in fieldList){
+    var code = field.code;
+    var comment = field.comment;
+    if (comment != null) {
+%>
+comment on column "${table.tableCode}"."${code}" is '${comment}';
+<%
+    }
+}
+%>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springbootddl.mapper.DdlTemplateMapper">
+
+    <resultMap type="com.example.springbootddl.entity.DdlTemplate" id="DdlTemplateMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <result property="createdBy" column="created_by" jdbcType="VARCHAR"/>
+        <result property="updatedBy" column="updated_by" jdbcType="VARCHAR"/>
+        <result property="version" column="version" jdbcType="VARCHAR"/>
+        <result property="dbType" column="db_type" jdbcType="VARCHAR"/>
+        <result property="template" column="template" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DdlTemplateMap">
+        select id,
+               name,
+               description,
+               created_at,
+               updated_at,
+               created_by,
+               updated_by,
+               version,
+               db_type,
+               template
+        from ddl_template
+        where id = #{id}
+    </select>
+
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from ddl_template
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                and created_by = #{createdBy}
+            </if>
+            <if test="updatedBy != null and updatedBy != ''">
+                and updated_by = #{updatedBy}
+            </if>
+            <if test="version != null and version != ''">
+                and version = #{version}
+            </if>
+            <if test="dbType != null and dbType != ''">
+                and db_type = #{dbType}
+            </if>
+            <if test="template != null and template != ''">
+                and template = #{template}
+            </if>
+        </where>
+    </select>
+    <select id="listAll" resultType="com.example.springbootddl.entity.DdlTemplate">
+        select id,
+               name,
+               description,
+               created_at,
+               updated_at,
+               created_by,
+               updated_by,
+               version,
+               db_type,
+               template
+        from ddl_template
+    </select>
+    <select id="queryByUnique" resultType="com.example.springbootddl.entity.DdlTemplate">
+        select id,
+               name,
+               description,
+               created_at,
+               updated_at,
+               created_by,
+               updated_by,
+               version,
+               db_type,
+               template
+        from ddl_template
+        where version = #{version}
+        and db_type = #{dbType}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into ddl_template(name, description, created_at, updated_at, created_by, updated_by, version, db_type,
+                                 template)
+        values (#{name}, #{description}, #{createdAt}, #{updatedAt}, #{createdBy}, #{updatedBy}, #{version}, #{dbType},
+                #{template})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into ddl_template(name, description, created_at, updated_at, created_by, updated_by, version, db_type,
+        template)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.description}, #{entity.createdAt}, #{entity.updatedAt}, #{entity.createdBy},
+            #{entity.updatedBy}, #{entity.version}, #{entity.dbType}, #{entity.template})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into ddl_template(name, description, created_at, updated_at, created_by, updated_by, version, db_type,
+        template)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.description}, #{entity.createdAt}, #{entity.updatedAt}, #{entity.createdBy},
+            #{entity.updatedBy}, #{entity.version}, #{entity.dbType}, #{entity.template})
+        </foreach>
+        on duplicate key update
+        name = values(name),
+        description = values(description),
+        created_at = values(created_at),
+        updated_at = values(updated_at),
+        created_by = values(created_by),
+        updated_by = values(updated_by),
+        version = values(version),
+        db_type = values(db_type),
+        template = values(template)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update ddl_template
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt},
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                created_by = #{createdBy},
+            </if>
+            <if test="updatedBy != null and updatedBy != ''">
+                updated_by = #{updatedBy},
+            </if>
+            <if test="version != null and version != ''">
+                version = #{version},
+            </if>
+            <if test="dbType != null and dbType != ''">
+                db_type = #{dbType},
+            </if>
+            <if test="template != null and template != ''">
+                template = #{template},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from ddl_template
+        where id = #{id}
+    </delete>
+
+</mapper>
+
