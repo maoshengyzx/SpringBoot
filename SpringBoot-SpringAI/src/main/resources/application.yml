@@ -3,7 +3,7 @@ spring:
     name: SpringBoot-SpringAI
   ai:
     dashscope:
-      api-key: sk-c8bd6ebb58c247eda6e330713d22bcb1
+      api-key: 
 
 
 
