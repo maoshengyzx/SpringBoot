@@ -1,36 +1,52 @@
 package com.example.springboothbase;
 
+import cn.hutool.core.collection.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.NamespaceDescriptor;
-import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.client.HBaseAdmin;
+import org.apache.hadoop.hbase.client.*;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.util.StringUtil;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @SpringBootTest
 class SpringBootHbaseApplicationTests {
 
+    private Set<String> headerCache = new HashSet<>();
+
+    private Admin admin;
+
     @Test
     void contextLoads() throws IOException {
-        Admin admin = testHbaseConnection("192.168.10.3:2181");
+        // 这个地方虽然会显示连接成功，但当去拿去hbase的元数据时会出现网络错误，原因是使用 docker 部署hbase，hbase的ip地址变为容器id，所以域名解析器解析不到ip地址, 这里有两种解决办法
+        // 1. 在 hosts 文件中 配置域名解析 配置为 ip地址 容器id  示例：xxx.xxx.xx.xx c360bd9ce150。 注意这个 ip 地址必须是宿主机的ip地址，不是容器的ip地址
+        // 2. 自定义域名解析
+        this.admin = testHbaseConnection("192.168.10.3:2181");
         log.info("hbase连接成功");
         NamespaceDescriptor[] descriptors = admin.listNamespaceDescriptors();
-        for (NamespaceDescriptor descriptor : descriptors) {
-            log.info(descriptor.getName());
+        for (NamespaceDescriptor namespace : descriptors) {
+            log.info("namespace: {}", namespace.getName());
+            for (HTableDescriptor hTableDescriptor : admin.listTableDescriptorsByNamespace(namespace.getName())) {
+                log.info("table: {}", hTableDescriptor.getTableName().getQualifierAsString());
+            }
         }
     }
 
 
+
     public static Admin testHbaseConnection(String zookeeperQuorum) {
-//		assert.requireNonNull(zookeeperQuorum, "zookeeper连接地址不能为空");
         org.apache.hadoop.hbase.client.Connection connection = null;
         try {
             connection = getHbaseConnection(zookeeperQuorum);
@@ -43,16 +59,9 @@ class SpringBootHbaseApplicationTests {
             if (e instanceof InterruptedException) {
                 Thread.currentThread().interrupt();
             }
-//			throw SystemException.wrap("无法连接数据源，{}", ObjectUtil.isEmpty(ExceptionUtil.getCauseMessage(e)) ? "连接信息错误" : e.getMessage());
             throw new RuntimeException("无法连接数据源，连接信息错误", e);
         } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (IOException e) {
-                    log.error("", e);
-                }
-            }
+
         }
     }
 
