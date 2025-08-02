@@ -38,8 +38,12 @@ class SpringBootHbaseApplicationTests {
         NamespaceDescriptor[] descriptors = admin.listNamespaceDescriptors();
         for (NamespaceDescriptor namespace : descriptors) {
             log.info("namespace: {}", namespace.getName());
-            for (HTableDescriptor hTableDescriptor : admin.listTableDescriptorsByNamespace(namespace.getName())) {
-                log.info("table: {}", hTableDescriptor.getTableName().getQualifierAsString());
+            for (TableDescriptor tableDescriptor : admin.listTableDescriptorsByNamespace(namespace.getName().getBytes())) {
+                log.info("table: {}", tableDescriptor.getTableName().getQualifierAsString());
+                ColumnFamilyDescriptor[] columnFamilies = tableDescriptor.getColumnFamilies();
+                for (ColumnFamilyDescriptor columnFamily : columnFamilies) {
+                    log.info("columnFamily: {}", columnFamily.getNameAsString());
+                }
             }
         }
     }
@@ -78,6 +82,7 @@ class SpringBootHbaseApplicationTests {
                 configuration.set("hbase.client.operation.timeout", "5000");
                 configuration.set("hbase.client.scanner.timeout.period", "10000");
 //                HBaseAdmin.checkHBaseAvailable(configuration);
+                HBaseAdmin.available(configuration);
                 return ConnectionFactory.createConnection(configuration);
             }
         });
